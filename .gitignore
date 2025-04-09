@@ -1,4 +1,5 @@
 *
 !.gitignore
 !LICENSE
-!Scripts
+!Scripts/
+!Scripts/*/
