@@ -19,7 +19,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(player.Stats.Speed);
         rb.linearVelocity = new Vector2(Input.GetAxisRaw("Horizontal")*player.Stats.Speed,rb.linearVelocity.y);        
     }
 

@@ -4,25 +4,21 @@ public class BaseStats
     public float Speed = 4;
     public float Energy = 5;
 
-
     public BaseStats(float Health,float Speed,float Energy){
         this.Health = Health;
         this.Speed = Speed;
         this.Energy = Energy;
     }
 
-    public static BaseStats operator +(BaseStats c1, BaseStats x){
-        return new BaseStats(
-        c1.Health + x.Health,
-        c1.Speed + x.Speed,
-        c1.Energy + x.Energy
-        );
+    public void Add(BaseStats x){
+        this.Health += x.Health;
+        this.Energy += x.Energy;
+        this.Speed += x.Speed;
     }
-    public static BaseStats operator -(BaseStats c1, BaseStats x){
-        return new BaseStats(
-        c1.Health - x.Health,
-        c1.Speed - x.Speed,
-        c1.Energy - x.Energy
-        );
+    public void Subtract(BaseStats x){
+        this.Health -= x.Health;
+        this.Speed -= x.Speed;
+        this.Energy -= x.Energy;
     }
+        
 }
