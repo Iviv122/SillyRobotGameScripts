@@ -1,22 +1,27 @@
-using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player: MonoBehaviour 
 {
     [SerializeField] private Rigidbody2D rb;
-    private PlayerStats stats; 
-    private PlayerMovement movement;
-    private BodyParts parts;
+    [SerializeField] BaseStats baseStats;
+    [SerializeField] private Stats stats;
+    public Stats Stats 
+    {
+        get{
+            return stats;
+        }
+    }
     void Awake() {
-
-        stats = gameObject.AddComponent<PlayerStats>();
-        movement = gameObject.AddComponent<PlayerMovement>();
-        parts = gameObject.AddComponent<BodyParts>();
-
-        GiveStartParts();
+        
+        baseStats = new BaseStats(20,5,5);
+        stats = new Stats(new StatsMediator(),baseStats);
+        stats.Mediator.AddModifier(new StatModifier(StatType.Speed,new AddOperation(5),3));
+    
     }
-    void GiveStartParts(){
-        throw new NotImplementedException();
-    }
+    void Update(){
+    
+        stats.Mediator.Update(Time.deltaTime);
 
+    }
+    
 }
