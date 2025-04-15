@@ -1,11 +1,14 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class Player: MonoBehaviour 
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] BaseStats baseStats;
     [SerializeField] private Stats stats;
+    [SerializeField] private Inventory inventory;
     [SerializeField] private BodyPartsManager bodyPartsManager;
+    [SerializeField] private GameObject inventoryManager; // UI
     public Stats Stats 
     {
         get{
@@ -22,8 +25,11 @@ public class Player: MonoBehaviour
         
         baseStats = new BaseStats(20,5,5);
         stats = new Stats(new StatsMediator(),baseStats);
-        stats.Mediator.AddModifier(new StatModifier(StatType.Speed,new AddOperation(5),3));
         bodyPartsManager = new BodyPartsManager(this,stats,baseStats);
+        inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
+        
+        inventory.AddItem(new FoorBattery()); // example item add
+        
         FillBodyParts(); 
     }
     void Update(){
@@ -39,5 +45,8 @@ public class Player: MonoBehaviour
         bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,2,1)),BodyPartsType.Legs);
         Debug.Log($"Health {Stats.Health}, Energy {Stats.Energy}, Speed {Stats.Speed}");
     }
-
+    public void OnInventory(){
+        Debug.Log("Invenory works");
+        inventoryManager.SetActive(!inventoryManager.activeSelf); 
+    }
 }
