@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
@@ -9,6 +10,8 @@ public class Player: MonoBehaviour
     [SerializeField] private Inventory inventory;
     [SerializeField] private BodyPartsManager bodyPartsManager;
     [SerializeField] private GameObject inventoryManager; // UI
+
+    public event Action UpdateEvent;
     public Stats Stats 
     {
         get{
@@ -29,13 +32,14 @@ public class Player: MonoBehaviour
         inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
         
         inventory.AddItem(new FoorBattery()); // example item add
-        
+        inventory.AddItem(new DamageAura());
+
         FillBodyParts(); 
     }
     void Update(){
     
         stats.Mediator.Update(Time.deltaTime);
-
+        UpdateEvent?.Invoke();
     }
 
     public void FillBodyParts(){
