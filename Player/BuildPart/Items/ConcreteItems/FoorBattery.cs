@@ -1,5 +1,8 @@
 public class FoorBattery : Item 
 {
+    public override Rarity RarityType(){
+        return Rarity.common;
+    } 
     static int counter = 3;
     public override void OnJump(Player player)
     {

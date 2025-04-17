@@ -66,6 +66,7 @@ public class ModuleManager
 
     private void SetModule(ActiveModule module)
     {
+        module.OnPickUpThis(player);
         switch (module.ModuleType)
         {
             case ModuleType.MainAttack:

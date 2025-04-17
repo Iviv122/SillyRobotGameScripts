@@ -26,5 +26,10 @@ public class Inventory
     }
     public void AddItem(Item item){
         items.Add(item);
+        item.OnPickUpThis(Player);
+        foreach (Item i in items)
+        {
+            i.OnItemPickUp(Player);
+        }
     }
 }

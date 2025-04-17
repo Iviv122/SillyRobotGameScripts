@@ -34,8 +34,7 @@ public class Player: MonoBehaviour
        
         inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
 
-        inventory.AddItem(new FoorBattery()); // example item add
-        inventory.AddItem(new DamageAura());
+        inventory.AddItem(Game.GetRandomCommonItem());
 
         moduleManager.AddModule(new AreaShock());
 
