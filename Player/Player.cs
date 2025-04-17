@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player: MonoBehaviour 
 {
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Camera cam;
     [SerializeField] BaseStats baseStats;
     [SerializeField] private Stats stats;
     [SerializeField] private Inventory inventory;
@@ -36,6 +37,7 @@ public class Player: MonoBehaviour
 
         inventory.AddItem(Game.GetRandomCommonItem());
 
+        moduleManager.AddModule(new FanOfScrap());
         moduleManager.AddModule(new AreaShock());
 
         FillBodyParts(); 

@@ -11,10 +11,14 @@ public class Game : MonoBehaviour
     public static void LogError(string text){
         Debug.Log(text);
     }
+    public static GameObject CreateObject(GameObject gameObject,Vector3 pos,Quaternion rot){
+        return Instantiate(gameObject,pos,rot);
+    }
     public static Item GetRandomCommonItem(){
         var test = Assembly.GetAssembly(typeof(Item)).GetTypes().Where(t => t.IsSubclassOf(typeof(Item))).ToArray(); 
-        Item item = Activator.CreateInstance(test[UnityEngine.Random.Range(0,test.Length)]) as Item; 
-        
+        var type =  test[UnityEngine.Random.Range(0,test.Length)];
+        Item item = Activator.CreateInstance(type) as Item; 
+        Debug.Log(type + "Was Given"); 
         return item;
     }
 }

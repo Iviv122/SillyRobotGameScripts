@@ -23,13 +23,14 @@ public class AreaShock : ActiveModule
     }
 
     override public void Use(Player player){
+
+        FadeObject.FullNonTransperent(sr);
+        player.StartCoroutine(FadeObject.FadeOutObject(sr,5));
         Collider2D[] cols = Physics2D.OverlapCircleAll(player.transform.position,5);
         foreach (Collider2D i in cols)
         {
             IDamageable a;
             if(i.gameObject.TryGetComponent<IDamageable>(out a)){
-                FadeObject.FullNonTransperent(sr);
-                player.StartCoroutine(FadeObject.FadeOutObject(sr,5));
                 a.Damage(damage);
             }    
         }
