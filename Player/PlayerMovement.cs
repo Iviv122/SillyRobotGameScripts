@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Player))]
 public class PlayerMovement : MonoBehaviour
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool isGrounded;
     [SerializeField] LayerMask groundLayer;
 
+    Vector2 input;
     public event Action Jump;
     void Awake()
     {
@@ -25,7 +27,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        rb.linearVelocity = new Vector2(Input.GetAxisRaw("Horizontal")*player.Stats.Speed,rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(input.x*player.Stats.Speed,rb.linearVelocity.y);
+    }
+    private void OnMove(InputValue value){
+        input = value.Get<Vector2>();
     }
     void Update()
     {

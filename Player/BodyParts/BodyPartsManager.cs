@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using UnityEngine;
 public class BodyPartsManager 
 {
     BaseStats baseStats;
@@ -18,22 +17,22 @@ public class BodyPartsManager
         this.baseStats = baseStats;
     }
     
-    public void AddBodyPart(BodyPart part, BodyPartsType type){
-        if(getPart(type) != null){
-            SwapBodyPart(part,type);
+    public void AddBodyPart(BodyPart part){
+        if(GetPart(part.Type) != null){
+            SwapBodyPart(part);
         }
-        setPart(part,type);
+        SetPart(part);
         baseStats.Add(part.Stats);
     }
     public void RemoveBodyPart(BodyPartsType type){
-        baseStats.Subtract(getPart(type).Stats);
+        baseStats.Subtract(GetPart(type).Stats);
         //TODO: drop on floor
     }
-    private void SwapBodyPart(BodyPart part, BodyPartsType type){
-        RemoveBodyPart(type);
-        AddBodyPart(part,type);
+    private void SwapBodyPart(BodyPart part){
+        RemoveBodyPart(part.Type);
+        AddBodyPart(part);
     }
-    private BodyPart getPart(BodyPartsType type){
+    private BodyPart GetPart(BodyPartsType type){
         switch (type)
         {
             case BodyPartsType.Head:
@@ -45,12 +44,12 @@ public class BodyPartsManager
             case BodyPartsType.Legs:
                 return legs;
             default:
-                Debug.LogError("BodyPartManaget tried to work with " + type + " and failed!");
+                Game.LogError("BodyPartManaget tried to work with " + type + " and failed!");
                 throw new InvalidEnumArgumentException();
         }
     }
-    private void setPart(BodyPart part,BodyPartsType type){
-        switch (type)
+    private void SetPart(BodyPart part){
+        switch (part.Type)
         {
             case BodyPartsType.Head:
                 head = part;
@@ -65,7 +64,7 @@ public class BodyPartsManager
                 legs = part;
                 break;
             default:
-                Debug.LogError("BodyPartManaget tried to work with " + type + " and failed!");
+                Game.LogError("BodyPartManaget tried to work with " + part.Type + " and failed!");
                 throw new InvalidEnumArgumentException();
         }
     }

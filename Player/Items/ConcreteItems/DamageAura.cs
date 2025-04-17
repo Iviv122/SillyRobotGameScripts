@@ -8,7 +8,7 @@ public class DamageAura : Item
         foreach (Collider2D i in cols)
         {
             IDamageable a;
-            if(i.gameObject.TryGetComponent<IDamageable>(out a)){
+            if(i.gameObject.TryGetComponent(out a)){
                 a.Damage(0.2f);
             }    
         }

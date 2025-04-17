@@ -9,6 +9,7 @@ public class Player: MonoBehaviour
     [SerializeField] private Stats stats;
     [SerializeField] private Inventory inventory;
     [SerializeField] private BodyPartsManager bodyPartsManager;
+    [SerializeField] private ModuleManager moduleManager;
     [SerializeField] private GameObject inventoryManager; // UI
 
     public event Action UpdateEvent;
@@ -29,10 +30,14 @@ public class Player: MonoBehaviour
         baseStats = new BaseStats(20,5,5);
         stats = new Stats(new StatsMediator(),baseStats);
         bodyPartsManager = new BodyPartsManager(this,stats,baseStats);
+        moduleManager = new ModuleManager(this); 
+       
         inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
-        
+
         inventory.AddItem(new FoorBattery()); // example item add
         inventory.AddItem(new DamageAura());
+
+        moduleManager.AddModule(new AreaShock());
 
         FillBodyParts(); 
     }
@@ -43,14 +48,21 @@ public class Player: MonoBehaviour
     }
 
     public void FillBodyParts(){
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1)),BodyPartsType.Head);
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1)),BodyPartsType.Body);
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1)),BodyPartsType.Arms);
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,2,1)),BodyPartsType.Legs);
+        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Head));
+        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Body));
+        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Arms));
+        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,2,1),BodyPartsType.Legs));
         Debug.Log($"Health {Stats.Health}, Energy {Stats.Energy}, Speed {Stats.Speed}");
     }
     public void OnInventory(){
         Debug.Log("Invenory works");
         inventoryManager.SetActive(!inventoryManager.activeSelf); 
+    }
+
+    void OnAttack(){
+        moduleManager.OnLeftMouse();
+    }
+    void OnAttack1(){
+        moduleManager.OnRightMouse();
     }
 }
