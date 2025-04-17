@@ -16,6 +16,20 @@ public class FadeObject
             yield return null;
         }
     }
+    public static IEnumerator FadeOutObjectDestroy(SpriteRenderer spriteRenderer,float fadeSpeed){
+
+        while (spriteRenderer.color.a > 0)
+        {
+            Color objectColor = spriteRenderer.color;
+            float FadeAmount = objectColor.a - (fadeSpeed*Time.deltaTime);
+
+            objectColor = new Color(objectColor.r,objectColor.g,objectColor.b,FadeAmount);
+            spriteRenderer.color = objectColor;
+
+            yield return null;
+        }
+        GameObject.Destroy(spriteRenderer.gameObject);
+    }
     public static IEnumerator FadeInObject(SpriteRenderer spriteRenderer,float fadeSpeed){
 
         while (spriteRenderer.color.a < 1)

@@ -37,7 +37,7 @@ public class Player: MonoBehaviour
 
         inventory.AddItem(new DamageAura());
 
-        moduleManager.AddModule(new FanOfScrap());
+        moduleManager.AddModule(new RocketLauncher());
         moduleManager.AddModule(new AreaShock());
 
         FillBodyParts(); 

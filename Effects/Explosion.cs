@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Explosion  
@@ -6,9 +7,11 @@ public class Explosion
     MonoBehaviour monoBehaviour;
     SpriteRenderer sr;
     float radius;
-    public Explosion(float radius,MonoBehaviour gameObject){
+    float speed;
+    public Explosion(float radius,float speed,MonoBehaviour gameObject){
         monoBehaviour = gameObject;
         this.radius = radius;
+        this.speed = speed;
 
         auraVisual = new GameObject("DamageAuraVisual");
         auraVisual.transform.SetParent(gameObject.transform);
@@ -23,10 +26,11 @@ public class Explosion
 
         FadeObject.FullTransperent(sr);
     }
-    public Explosion(float radius,MonoBehaviour gameObject,Color color){
+    public Explosion(float radius,float speed,MonoBehaviour gameObject,Color color){
         monoBehaviour =gameObject;
         this.radius = radius;
-        
+        this.speed = speed;
+
         auraVisual = new GameObject("DamageAuraVisual");
         auraVisual.transform.SetParent(gameObject.transform);
         auraVisual.transform.localPosition = Vector3.zero;
@@ -42,6 +46,12 @@ public class Explosion
     }
     public void Explode(){
         FadeObject.FullNonTransperent(sr);
-        monoBehaviour.StartCoroutine(FadeObject.FadeOutObject(sr,radius));
+        Game.Instance.StartCoroutine(FadeObject.FadeOutObject(sr,speed));
+    }
+    public void ExplodeAndDestroy(){
+        FadeObject.FullNonTransperent(sr);
+        
+        sr.gameObject.transform.parent = null; 
+        Game.Instance.StartCoroutine(FadeObject.FadeOutObjectDestroy(sr,speed));
     }
 }

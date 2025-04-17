@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class DamageAura : Item 
@@ -13,7 +12,7 @@ public class DamageAura : Item
     float damage = 0.2f;
     public override void OnPickUpThis(Player player)
     {
-        expl = new(radius,player);
+        expl = new(radius,3.5f,player);
     } 
     public override void OnUpdate(Player player,float DeltaTime)
     {

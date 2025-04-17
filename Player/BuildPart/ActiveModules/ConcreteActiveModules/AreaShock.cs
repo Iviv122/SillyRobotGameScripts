@@ -8,7 +8,7 @@ public class AreaShock : ActiveModule
     float damage = 5;
     public override void OnPickUpThis(Player player)
     {
-        expl = new(radius,player,color);
+        expl = new(radius,4f,player,color);
     }
 
     override public void Use(Player player){
