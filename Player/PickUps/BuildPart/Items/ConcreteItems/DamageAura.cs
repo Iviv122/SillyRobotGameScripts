@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class DamageAura : Item 
 {
+    public override Sprite Sprite()
+    {
+        return Resources.Load<Sprite>("Sprites/Items/MiniTesla");
+    }
     public override Rarity RarityType(){
         return Rarity.common;
     }

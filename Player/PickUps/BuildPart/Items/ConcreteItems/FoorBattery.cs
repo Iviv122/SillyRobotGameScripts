@@ -1,5 +1,11 @@
+using UnityEngine;
+
 public class FoorBattery : Item 
 {
+    public override Sprite Sprite()
+    {
+        return Resources.Load<Sprite>("Sprites/Items/InduktiveWool");
+    }
     public override Rarity RarityType(){
         return Rarity.common;
     } 

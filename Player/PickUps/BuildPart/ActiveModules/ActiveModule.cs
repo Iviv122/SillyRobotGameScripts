@@ -1,6 +1,6 @@
 using UnityEngine;
 
-abstract public class ActiveModule
+abstract public class ActiveModule 
 {
     abstract public ModuleType ModuleType {get;} 
     virtual public void OnPickUpThis(Player player){}

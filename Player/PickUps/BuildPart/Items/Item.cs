@@ -1,9 +1,10 @@
-abstract public class Item 
+using UnityEngine;
+
+abstract public class Item : IPickUp 
 {
 
     abstract public Rarity RarityType(); 
     //Add other events
-
     virtual public void OnJump(Player player){
     
     }
@@ -16,5 +17,6 @@ abstract public class Item
     virtual public void OnItemPickUp(Player player){
 
     }
- 
+
+    abstract public Sprite Sprite();
 }
