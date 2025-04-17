@@ -20,11 +20,8 @@ public class FanOfScrap : ActiveModule
 
         for (int i = 0; i < numProjectiles; i++)
         {
-            // -1, 0, 1 --> center projectile is i=1
             float angleOffset = (i - 1) * spreadAngle;
             float finalAngle = baseAngle + angleOffset;
-
-            // Мы крутим верктор вокруг кватерниона
 
             Quaternion rotation = Quaternion.Euler(0, 0, finalAngle);
             Vector3 direction = Quaternion.Euler(0, 0, finalAngle) * Vector3.right;
