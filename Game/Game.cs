@@ -37,4 +37,11 @@ public class Game : MonoBehaviour
         Debug.Log(type + "Was Given"); 
         return item;
     }
+    public static ActiveModule GetRandomCommonActiveModule(){
+        var test = Assembly.GetAssembly(typeof(ActiveModule)).GetTypes().Where(t => t.IsSubclassOf(typeof(ActiveModule))).ToArray(); 
+        var type =  test[UnityEngine.Random.Range(0,test.Length)];
+        ActiveModule item = Activator.CreateInstance(type) as ActiveModule; 
+        Debug.Log(type + "Was Given"); 
+        return item;
+    }
 }

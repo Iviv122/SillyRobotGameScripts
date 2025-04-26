@@ -7,6 +7,12 @@ public class ModuleManager
     public ModuleManager(Player player)
     {
         this.player = player;
+        player.Attack += OnLeftMouse;
+        player.Attack1 += OnRightMouse;
+        player.Module1 += OnE;
+        player.Module2 += OnQ;
+        player.Module3 += OnR;
+        player.Module4 += OnShift;
     }
 
     ActiveModule mainAttack;

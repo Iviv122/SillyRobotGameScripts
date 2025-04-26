@@ -5,6 +5,10 @@ public class FanOfScrap : ActiveModule
     public override ModuleType ModuleType => ModuleType.MainAttack;
 
     GameObject pellet;
+    public override Sprite Sprite()
+    {
+        return Resources.Load<Sprite>("Sprites/ActiveModules/FanOfScrap");
+    }
     public override void OnPickUpThis(Player player)
     {
         pellet = Resources.Load("Projectile/FlyingScrap") as GameObject;

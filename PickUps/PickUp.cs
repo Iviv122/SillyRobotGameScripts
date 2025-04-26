@@ -1,23 +1,36 @@
 using UnityEngine;
 
-public class PickUp : MonoBehaviour
+public class PickUp : MonoBehaviour, IInteract
 {
     SpriteRenderer sr;
     CircleCollider2D col;
     IPickUp item;
     Rigidbody2D rb;
     public PickUpType pickUp; 
+
+    public void Use(object obj)
+    {
+        if(obj is InteractManager interactManager){
+            interactManager.PickUp(item);
+        }
+        Destroy(gameObject);
+    }
+    public IPickUp Get(){
+        return item;
+    }
+
     private void Awake() {
         GameObject colliderBox = new GameObject();
         colliderBox.transform.parent = transform;
         colliderBox.layer = LayerMask.NameToLayer("PickUp"); 
+        colliderBox.transform.localPosition =new Vector3(0,0,0);
         BoxCollider2D box = colliderBox.AddComponent<BoxCollider2D>();
         box.size = new Vector2(1f, 1f);
         colliderBox.AddComponent<Rigidbody>();
 
         rb = gameObject.AddComponent<Rigidbody2D>();
         rb.freezeRotation = true;
-        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.bodyType = RigidbodyType2D.Dynamic;
 
         col = gameObject.AddComponent<CircleCollider2D>();
         col.radius = 0.8f;
@@ -42,14 +55,13 @@ public class PickUp : MonoBehaviour
         switch (pickUp)
         {
             case PickUpType.Item:
-                item = Game.GetRandomCommonItem(); 
+                item = (IPickUp)Game.GetRandomCommonItem(); 
+            break;
+            case PickUpType.ActiveModule:
+                item = (IPickUp)Game.GetRandomCommonActiveModule(); 
             break;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Player")){
-            Debug.Log("PickMe Please ;)");
-        }
-    }
+    
 }

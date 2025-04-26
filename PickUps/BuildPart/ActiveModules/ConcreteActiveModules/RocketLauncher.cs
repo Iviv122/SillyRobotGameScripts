@@ -3,8 +3,11 @@ using UnityEngine;
 public class RocketLauncher : ActiveModule 
 {
     public override ModuleType ModuleType => ModuleType.MainAttack;
-
     GameObject pellet;
+    public override Sprite Sprite()
+    {
+        return Resources.Load<Sprite>("Sprites/ActiveModules/RocketLauncher");
+    }
     public override void OnPickUpThis(Player player)
     {
         pellet = Resources.Load("Projectile/Rocket") as GameObject;

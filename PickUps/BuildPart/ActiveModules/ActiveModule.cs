@@ -1,8 +1,9 @@
 using UnityEngine;
 
-abstract public class ActiveModule 
+abstract public class ActiveModule: IPickUp 
 {
     abstract public ModuleType ModuleType {get;} 
+    abstract public Sprite Sprite();
     virtual public void OnPickUpThis(Player player){}
     abstract public void Use(Player player);
 

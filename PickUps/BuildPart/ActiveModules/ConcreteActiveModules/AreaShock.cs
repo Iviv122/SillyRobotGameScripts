@@ -6,6 +6,12 @@ public class AreaShock : ActiveModule
     Explosion expl;
     float radius = 5;
     float damage = 5;
+
+    public override Sprite Sprite()
+    {
+        return Resources.Load<Sprite>("Sprites/ActiveModules/AreaShock");
+    }
+
     public override void OnPickUpThis(Player player)
     {
         expl = new(radius,4f,player,color);
