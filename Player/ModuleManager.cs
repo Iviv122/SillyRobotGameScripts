@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using UnityEngine;
 
 public class ModuleManager
 {
@@ -23,12 +24,12 @@ public class ModuleManager
     ActiveModule skill4;
 
     // Input handlers
-   public void OnLeftMouse() => mainAttack?.Use(player);
-   public void OnRightMouse() => secondAttack?.Use(player);
-   public void OnE() => skill1?.Use(player);
-   public void OnQ() => skill2?.Use(player);
-   public void OnR() => skill3?.Use(player);
-   public void OnShift() => skill4?.Use(player);
+    public void OnLeftMouse() => mainAttack?.Use(player);
+    public void OnRightMouse() => secondAttack?.Use(player);
+    public void OnE() => skill1?.Use(player);
+    public void OnQ() => skill2?.Use(player);
+    public void OnR() => skill3?.Use(player);
+    public void OnShift() => skill4?.Use(player);
 
     // Module management
     public void AddModule(ActiveModule module)
@@ -45,9 +46,20 @@ public class ModuleManager
 
     public void RemoveModule(ModuleType type)
     {
-        SetModule(type);
-        //DropModule(ModuleType type);
-        // TODO: Drop module on ground 
+        ActiveModule module = GetModule(type);
+        if (module != null)
+        {
+            GameObject obj = new GameObject();
+            PickUp pickUp = obj.AddComponent<PickUp>();
+            obj.transform.position = (Vector2)player.transform.position + new Vector2(0, 0.2f);
+
+
+            pickUp.item = module;
+            pickUp.pickUp = PickUpType.ActiveModule;
+
+            pickUp.Start();
+        }
+        SetModule(type); // clear the module slot
     }
 
     private void SwapModule(ActiveModule newModule)

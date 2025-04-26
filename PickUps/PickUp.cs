@@ -4,26 +4,29 @@ public class PickUp : MonoBehaviour, IInteract
 {
     SpriteRenderer sr;
     CircleCollider2D col;
-    IPickUp item;
+    public IPickUp item;
     Rigidbody2D rb;
-    public PickUpType pickUp; 
+    public PickUpType pickUp;
 
     public void Use(object obj)
     {
-        if(obj is InteractManager interactManager){
+        if (obj is InteractManager interactManager)
+        {
             interactManager.PickUp(item);
         }
         Destroy(gameObject);
     }
-    public IPickUp Get(){
+    public IPickUp Get()
+    {
         return item;
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         GameObject colliderBox = new GameObject();
         colliderBox.transform.parent = transform;
-        colliderBox.layer = LayerMask.NameToLayer("PickUp"); 
-        colliderBox.transform.localPosition =new Vector3(0,0,0);
+        colliderBox.layer = LayerMask.NameToLayer("PickUp");
+        colliderBox.transform.localPosition = new Vector3(0, 0, 0);
         BoxCollider2D box = colliderBox.AddComponent<BoxCollider2D>();
         box.size = new Vector2(1f, 1f);
         colliderBox.AddComponent<Rigidbody>();
@@ -41,27 +44,34 @@ public class PickUp : MonoBehaviour, IInteract
         if (sr == null) sr = gameObject.AddComponent<SpriteRenderer>();
 
     }
-    private void Start() {
-        DeterminePickUp();
+    public void Start()
+    {
+        if (item == null)
+        {
+            DeterminePickUp();
+        }
         WorkWithItem();
     }
-    private void WorkWithItem(){
+
+    private void WorkWithItem()
+    {
         sr.enabled = true;
         sr.sprite = item.Sprite();
         //Debug.Log(item.Sprite());
     }
-    private void DeterminePickUp() 
+    private void DeterminePickUp()
     {
         switch (pickUp)
         {
             case PickUpType.Item:
-                item = (IPickUp)Game.GetRandomCommonItem(); 
-            break;
+                item = (IPickUp)Game.GetRandomCommonItem();
+                break;
             case PickUpType.ActiveModule:
-                item = (IPickUp)Game.GetRandomCommonActiveModule(); 
-            break;
+                item = (IPickUp)Game.GetRandomCommonActiveModule();
+                break;
         }
+
     }
 
-    
+
 }
