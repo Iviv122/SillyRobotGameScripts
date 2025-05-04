@@ -37,5 +37,9 @@ public class Turret : Entity
         Instantiate(bullet, transform.position + (Vector3)dir, rotation);
     }
 
+    public override void Die()
+    {
+        Destroy(gameObject); 
+    }
 
 }
