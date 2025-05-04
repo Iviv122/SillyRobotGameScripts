@@ -1,5 +1,7 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class Player: MonoBehaviour 
@@ -13,7 +15,7 @@ public class Player: MonoBehaviour
     [SerializeField] private ModuleManager moduleManager;
     [SerializeField] private GameObject inventoryManager; // UI
     [SerializeField] private InteractManager interactManager;
-    [SerializeField] private GameObject headLabel;
+    [SerializeField] private TextMeshProUGUI headLabel;
 
     public event Action UpdateEvent;
     public event Action Attack;
@@ -48,7 +50,6 @@ public class Player: MonoBehaviour
         interactManager = new InteractManager(this,headLabel,inventory,bodyPartsManager,moduleManager);
 
 
-        GiveStartItems();
         FillBodyParts(); 
         Warmup();
     }
@@ -56,9 +57,6 @@ public class Player: MonoBehaviour
     
         stats.Mediator.Update(Time.deltaTime);
         UpdateEvent?.Invoke();
-    }
-    public void GiveStartItems(){
-
     }
     public void Warmup(){
         interactManager.TryUse();
@@ -80,6 +78,9 @@ public class Player: MonoBehaviour
     }
     void OnAttack1(){
         Attack1?.Invoke();
+    }
+    void OnRestart(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);    
     }
     void OnModule1(){
         Module1?.Invoke();

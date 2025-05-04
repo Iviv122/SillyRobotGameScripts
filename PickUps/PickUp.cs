@@ -57,7 +57,6 @@ public class PickUp : MonoBehaviour, IInteract
     {
         sr.enabled = true;
         sr.sprite = item.Sprite();
-        //Debug.Log(item.Sprite());
     }
     private void DeterminePickUp()
     {
@@ -68,6 +67,9 @@ public class PickUp : MonoBehaviour, IInteract
                 break;
             case PickUpType.ActiveModule:
                 item = (IPickUp)Game.GetRandomCommonActiveModule();
+                break;
+            case PickUpType.BodyPart:
+                item = (IPickUp)Game.GetRandomCommonBodyPart();
                 break;
         }
 

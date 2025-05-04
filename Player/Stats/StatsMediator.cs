@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 
 public class StatsMediator 
 {
-    public List<StatModifier> listModifiers = new();
+    readonly public EventList<StatModifier> listModifiers = new();
 
     public void AddModifier(StatModifier modifier){
         listModifiers.Add(modifier);

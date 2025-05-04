@@ -3,6 +3,9 @@ using UnityEngine;
 public class RocketLauncher : ActiveModule 
 {
     public override ModuleType ModuleType => ModuleType.MainAttack;
+
+    public override float EnergyConsuption => 3;
+
     GameObject pellet;
     public override Sprite Sprite()
     {

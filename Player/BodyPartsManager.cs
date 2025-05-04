@@ -1,11 +1,10 @@
 using System.ComponentModel;
-public class BodyPartsManager 
+public class BodyPartsManager : IDropPickUp 
 {
     BaseStats baseStats;
     Stats stats;
-    Player player; // for events, change this if there is any need 
-
-
+    readonly Player player; // for events, change this if there is any need 
+    
     BodyPart head;
     BodyPart body;
     BodyPart arms;
@@ -17,20 +16,18 @@ public class BodyPartsManager
         this.baseStats = baseStats;
     }
     
-    public void AddBodyPart(BodyPart part){
-        if(GetPart(part.Type) != null){
-            SwapBodyPart(part);
+    public void AddBodyPart(BodyPart part) {
+        BodyPart existing = GetPart(part.Type);
+        if (existing != null) {
+            RemoveBodyPart(part.Type); // Remove before setting the new one
         }
+
         SetPart(part);
         baseStats.Add(part.Stats);
     }
     public void RemoveBodyPart(BodyPartsType type){
         baseStats.Subtract(GetPart(type).Stats);
-        //TODO: drop on floor
-    }
-    private void SwapBodyPart(BodyPart part){
-        RemoveBodyPart(part.Type);
-        AddBodyPart(part);
+        DropPickUp(GetPart(type),player.transform);
     }
     private BodyPart GetPart(BodyPartsType type){
         switch (type)

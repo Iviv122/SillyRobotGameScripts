@@ -4,6 +4,7 @@ abstract public class ActiveModule: IPickUp
 {
     abstract public ModuleType ModuleType {get;} 
     abstract public Sprite Sprite();
+    abstract public float EnergyConsuption {get ;}
     virtual public void OnPickUpThis(Player player){}
     abstract public void Use(Player player);
 

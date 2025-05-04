@@ -4,6 +4,8 @@ public class FanOfScrap : ActiveModule
 {
     public override ModuleType ModuleType => ModuleType.MainAttack;
 
+    public override float EnergyConsuption => 2;
+
     GameObject pellet;
     public override Sprite Sprite()
     {

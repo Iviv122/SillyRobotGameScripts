@@ -2,6 +2,9 @@ using UnityEngine;
 public class AreaShock : ActiveModule 
 {
     public override ModuleType ModuleType => ModuleType.SecondAttack;
+
+    public override float EnergyConsuption => 5;
+
     Color color = new Color(0.537f, 0.812f, 0.941f,0.3f);
     Explosion expl;
     float radius = 5;

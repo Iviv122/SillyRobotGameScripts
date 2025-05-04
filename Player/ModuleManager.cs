@@ -1,7 +1,6 @@
 using System.ComponentModel;
-using UnityEngine;
 
-public class ModuleManager
+public class ModuleManager : IDropPickUp 
 {
     readonly Player player;
 
@@ -24,12 +23,12 @@ public class ModuleManager
     ActiveModule skill4;
 
     // Input handlers
-    public void OnLeftMouse() => mainAttack?.Use(player);
-    public void OnRightMouse() => secondAttack?.Use(player);
-    public void OnE() => skill1?.Use(player);
-    public void OnQ() => skill2?.Use(player);
-    public void OnR() => skill3?.Use(player);
-    public void OnShift() => skill4?.Use(player);
+    public void OnLeftMouse() => TryToUse(GetModule(ModuleType.MainAttack));
+    public void OnRightMouse() => TryToUse(GetModule(ModuleType.SecondAttack));
+    public void OnE() => TryToUse(GetModule(ModuleType.Skill1));
+    public void OnQ() => TryToUse(GetModule(ModuleType.Skill2));
+    public void OnR() => TryToUse(GetModule(ModuleType.Skill3));
+    public void OnShift() => TryToUse(GetModule(ModuleType.Skill4));
 
     // Module management
     public void AddModule(ActiveModule module)
@@ -46,19 +45,7 @@ public class ModuleManager
 
     public void RemoveModule(ModuleType type)
     {
-        ActiveModule module = GetModule(type);
-        if (module != null)
-        {
-            GameObject obj = new GameObject();
-            PickUp pickUp = obj.AddComponent<PickUp>();
-            obj.transform.position = (Vector2)player.transform.position + new Vector2(0, 0.2f);
-
-
-            pickUp.item = module;
-            pickUp.pickUp = PickUpType.ActiveModule;
-
-            pickUp.Start();
-        }
+        DropPickUp(GetModule(type),player.transform);
         SetModule(type); // clear the module slot
     }
 
@@ -67,7 +54,11 @@ public class ModuleManager
         RemoveModule(newModule.ModuleType);
         AddModule(newModule);
     }
-
+    private void TryToUse(ActiveModule module){
+        if(module != null){
+            module.Use(player);
+        }
+    }
     private ActiveModule GetModule(ModuleType type)
     {
         return type switch
