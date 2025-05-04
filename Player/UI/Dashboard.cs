@@ -16,6 +16,7 @@ public class Dashboard : MonoBehaviour
         player = _player;
     }
     private void Start(){
+        player.BaseStats.ValuesChanged += UpdateUI;
         player.Stats.ValuesChanged += UpdateUI;
         UpdateUI(); 
     }

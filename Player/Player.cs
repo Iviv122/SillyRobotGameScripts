@@ -41,6 +41,7 @@ public class Player: MonoBehaviour
     void Awake() {
         
         baseStats = new BaseStats(20,5,5);
+        baseStats.Die += Die;
         stats = new Stats(new StatsMediator(),baseStats);
         bodyPartsManager = new BodyPartsManager(this,stats,baseStats);
         moduleManager = new ModuleManager(this); 
@@ -52,6 +53,9 @@ public class Player: MonoBehaviour
 
         FillBodyParts(); 
         Warmup();
+    }
+    void Die(){
+        Debug.Log("I am dead =)");
     }
     void Update(){
     

@@ -28,7 +28,7 @@ public class BaseStats
             {
                 currentHealth = value;
             }
-
+            ValuesChanged?.Invoke();
         }
     }
     public float CurrentEnergy 
@@ -48,7 +48,7 @@ public class BaseStats
             {
                 currentEnergy = value;
             }
-
+            ValuesChanged?.Invoke();
         }
     }
 
