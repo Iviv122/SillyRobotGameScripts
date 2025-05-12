@@ -7,7 +7,7 @@ public class Turret : Entity
     [SerializeField] float attackSpeed;
     [SerializeField] GameObject bullet;
     [SerializeField] float timeLeft;
-    CountdownTimer timer = new CountdownTimer(3);
+    CountdownTimer timer = new CountdownTimer(1);
 
     [Inject]
     void Construct(Player player)
@@ -17,6 +17,10 @@ public class Turret : Entity
     void Start()
     {
         timer.Start();
+    }
+    void Awake()
+    {
+        
     }
     void Update()
     {

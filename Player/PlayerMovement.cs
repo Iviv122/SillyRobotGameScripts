@@ -1,12 +1,15 @@
 using System;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] Collider2D col;
     [SerializeField] Player player;
     [SerializeField] PlayerState state;
     public PlayerState State => state;
@@ -26,41 +29,68 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void FixedUpdate() {
-        rb.linearVelocity = new Vector2(input.x*player.Stats.Speed,rb.linearVelocity.y);
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = new Vector2(input.x * player.Stats.Speed, rb.linearVelocity.y);
     }
-    private void OnMove(InputValue value){
+    private void OnMove(InputValue value)
+    {
         input = value.Get<Vector2>();
+    }
+    private void DisablePlayerCollider()
+    {
+        col.enabled = false;
+    }
+    private void EnablePlayerCollider()
+    {
+        col.enabled = true;
     }
     void Update()
     {
         isGrounded = OnGround();
 
         HandleState();
+
+        if(state == PlayerState.InPlatform){
+            DisablePlayerCollider();
+        }else{
+            EnablePlayerCollider();
+        }
+
     }
-    void OnJump(){
-        if(isGrounded){
-            rb.linearVelocity += new Vector2(0,player.Stats.Speed);
+    void OnJump()
+    {
+        if (isGrounded)
+        {
+            rb.linearVelocity += new Vector2(0, player.Stats.Speed);
             Jump?.Invoke();
         }
     }
 
-    bool OnGround(){
-        return Physics2D.Raycast(transform.position,Vector2.down,0.45f,groundLayer);
+    bool OnGround()
+    {
+        return Physics2D.Raycast(transform.position, Vector2.down, 0.45f, groundLayer);
     }
 
-    void HandleState(){
-        
-        if(!isGrounded){
+    void HandleState()
+    {
+
+        if (!isGrounded)
+        {
             state = PlayerState.Air;
-        }else if(Input.GetAxisRaw("Horizontal") != 0){
+        }
+        else if (Input.GetAxisRaw("Horizontal") != 0)
+        {
             state = PlayerState.Walking;
-        }else{
+        }
+        else
+        {
             state = PlayerState.Idle;
         }
-    
+
     }
-    private void OnDrawGizmosSelected() {
+    private void OnDrawGizmosSelected()
+    {
         Debug.DrawRay(transform.position, Vector2.down * 0.45f);
     }
 }

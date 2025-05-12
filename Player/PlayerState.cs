@@ -1,5 +1,6 @@
 public enum PlayerState{
     Idle,
     Walking,
-    Air
+    Air,
+    InPlatform
 }

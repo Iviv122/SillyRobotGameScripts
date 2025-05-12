@@ -3,12 +3,12 @@ using System.Linq;
 using System.Reflection;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] float SpawnPosX;
     [SerializeField] float SpawnPosY;
-
     public static Game Instance { get; private set; }
 
     [Button]

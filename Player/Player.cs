@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class Player: MonoBehaviour 
@@ -38,6 +39,10 @@ public class Player: MonoBehaviour
             return baseStats;
         }
     }
+    [Inject]
+    void Construct(Camera cam){
+        this.cam =cam;
+    }
     void Awake() {
         
         baseStats = new BaseStats(20,5,5);
@@ -50,6 +55,7 @@ public class Player: MonoBehaviour
 
         interactManager = new InteractManager(this,headLabel,inventory,bodyPartsManager,moduleManager);
 
+        interactManager.PickUp(new SimpleGun());
 
         FillBodyParts(); 
         Warmup();

@@ -1,13 +1,16 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 using Zenject;
 
 public class GameInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        Container.Bind<Camera>().FromComponentInHierarchy().AsSingle();
         Container.Bind<Player>().FromComponentInHierarchy().AsSingle(); // reuse same instance
+
         //Container.Bind<Item>().To<FoorBattery>().AsTransient().WhenInjectedInto<Inventory>(); Interface/abstract injection
         //Container.Instanciate(Something)  In runtime (not in this script)
 
@@ -30,5 +33,7 @@ public class GameInstaller : MonoInstaller
                 return item;
             }
         ).AsTransient();
+
+        Container.Bind<CountdownTimer>().AsTransient();
     }
 }
