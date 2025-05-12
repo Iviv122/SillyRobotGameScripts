@@ -9,39 +9,16 @@ public class Game : MonoBehaviour
 {
     [SerializeField] float SpawnPosX;
     [SerializeField] float SpawnPosY;
+    [SerializeField] LevelManager levelManager;
     public static Game Instance { get; private set; }
 
-    [Button]
-    void SpawnRandomItem()
-    {
-        GameObject item = new GameObject();
-        PickUp pick = item.AddComponent<PickUp>();
-        pick.pickUp = PickUpType.Item;
-        item.transform.position = new Vector3(SpawnPosX, SpawnPosY, 0);
+    [Inject]
+    void Construct(LevelManager manager){
+        levelManager =manager; 
     }
-    [Button]
-    void SpawnRandomActiveModule()
-    {
-        GameObject item = new GameObject();
-        PickUp pick = item.AddComponent<PickUp>();
-        pick.pickUp = PickUpType.ActiveModule;
-        item.transform.position = new Vector3(SpawnPosX, SpawnPosY, 0);
-    }
-    [Button]
-    void SpawnRandomConsumable()
-    {
-        GameObject item = new GameObject();
-        PickUp pick = item.AddComponent<PickUp>();
-        pick.pickUp = PickUpType.Consumable;
-        item.transform.position = new Vector3(SpawnPosX, SpawnPosY, 0);
-    }
-    [Button]
-    void SpawnRandomBodyPart()
-    {
-        GameObject item = new GameObject();
-        PickUp pick = item.AddComponent<PickUp>();
-        pick.pickUp = PickUpType.BodyPart;
-        item.transform.position = new Vector3(SpawnPosX, SpawnPosY, 0);
+
+    public void StartGame(){
+        levelManager.StartTutorial();
     }
 
     private void Awake()
@@ -58,14 +35,7 @@ public class Game : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-    public static void Log(string text)
-    {
-        Debug.Log(text);
-    }
-    public static void LogError(string text)
-    {
-        Debug.Log(text);
-    }
+
     public static GameObject CreateObject(GameObject gameObject, Vector3 pos, Quaternion rot)
     {
         return Instantiate(gameObject, pos, rot);
@@ -102,5 +72,13 @@ public class Game : MonoBehaviour
         var values = Enum.GetValues(typeof(T));
         int random = UnityEngine.Random.Range(0, values.Length);
         return (T)values.GetValue(random);
+    }
+    public static void Log(string text)
+    {
+        Debug.Log(text);
+    }
+    public static void LogError(string text)
+    {
+        Debug.Log(text);
     }
 }

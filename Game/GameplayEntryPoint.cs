@@ -37,10 +37,10 @@ public class GameplayEntryPoint : MonoBehaviour
 
     }
     private async Task PrepareGame(){
-        Player.transform.position = new Vector3(0,0,0);
+        Player.transform.position = new Vector3(0,-9,0);
         Game.transform.position = new Vector3(0,0,0);
     }
     private void StartGame(){
-
+       Game.StartGame(); 
     }
 }

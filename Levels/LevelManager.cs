@@ -5,6 +5,7 @@ using Zenject;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] Player _player;
+    [SerializeField] Tutorial tutorial;
     [SerializeField] GameObject[] levels;
     [SerializeField] int _levelCounter = 0;
     [SerializeField] Collider2D col;
@@ -24,8 +25,8 @@ public class LevelManager : MonoBehaviour
         _container.InstantiatePrefab(levels[0], transform.position, Quaternion.identity, null); 
         _levelCounter++;
     }
-    void _StartLevel(){
-
+    public void StartTutorial(){
+        _container.InstantiatePrefab(tutorial,transform.position,Quaternion.identity,null);
     }
     void SpawnInsideCol()
     {

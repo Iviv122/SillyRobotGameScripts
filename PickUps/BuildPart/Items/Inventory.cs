@@ -9,7 +9,7 @@ public class Inventory
     public Inventory(Player player,PlayerMovement movement){ // add event sources and subscribe
         Player = player;
         player.UpdateEvent += OnUpdate; 
-        movement.Jump += OnJump;
+        movement.OnJumpInput += OnJump;
     }
 
     void OnJump(){

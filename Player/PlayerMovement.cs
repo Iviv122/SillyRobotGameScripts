@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
 
     Vector2 input;
-    public event Action Jump;
+    public event Action OnJumpInput;
+    public event Action OnMoveInput;
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnMove(InputValue value)
     {
         input = value.Get<Vector2>();
+        OnMoveInput?.Invoke();
     }
     private void DisablePlayerCollider()
     {
@@ -63,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             rb.linearVelocity += new Vector2(0, player.Stats.Speed);
-            Jump?.Invoke();
+            OnJumpInput?.Invoke();
         }
     }
 
