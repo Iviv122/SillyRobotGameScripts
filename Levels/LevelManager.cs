@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Player _player;
     [SerializeField] Tutorial tutorial;
     [SerializeField] GameObject[] levels;
+    [SerializeField] Level _currentLevel;
     [SerializeField] int _levelCounter = 0;
     [SerializeField] Collider2D col;
 
@@ -22,11 +23,26 @@ public class LevelManager : MonoBehaviour
     [Button]
     public void StartLevel()
     {
-        _container.InstantiatePrefab(levels[0], transform.position, Quaternion.identity, null); 
+        _player.transform.position = new Vector3(0,-9,0);
+        _currentLevel = _container.InstantiatePrefab(levels[_levelCounter], transform.position, Quaternion.identity, null).GetComponent<Level>(); 
         _levelCounter++;
+
+        _currentLevel.OnLevelEnd += EndLevel; 
+    }
+    public void EndLevel(){
+        _currentLevel.OnLevelEnd -= EndLevel;
+        Destroy(_currentLevel.gameObject);
+        // ? Delay();
+        StartLevel();
     }
     public void StartTutorial(){
-        _container.InstantiatePrefab(tutorial,transform.position,Quaternion.identity,null);
+        tutorial = _container.InstantiatePrefab(tutorial,transform.position,Quaternion.identity,null).GetComponent<Tutorial>();
+        tutorial.OnTutorialEnd += EndTutorial;
+    }
+    public void EndTutorial(){
+        Destroy(tutorial.gameObject);
+        // ? Delay();
+        StartLevel();
     }
     void SpawnInsideCol()
     {

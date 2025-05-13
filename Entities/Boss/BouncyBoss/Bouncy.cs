@@ -12,37 +12,27 @@ public class Bouncy : Entity, Boss
     [SerializeField] GameObject Projectile;
     [SerializeField] Rigidbody rb;
 
-    public void Construct(CountdownTimer Attack1timer, CountdownTimer Attack2timer)
+    public void Start()
     {
-        _Attack1Timer = Attack1timer;
-        _Attack2Timer = Attack2timer;
+        _Attack1Timer = new CountdownTimer(Attack1Period);
+        _Attack2Timer = new CountdownTimer(Attack2Period);
 
         _Attack1Timer.OnTimerStop += () =>
         {
-            Debug.Log("SHooting");
             _Attack1Timer.Reset();
             RoundShoot();
             _Attack1Timer.Start();
         };
         _Attack2Timer.OnTimerStop += () =>
         {
-            Debug.Log("SHooting");
             _Attack2Timer.Reset();
             RandomShoot();
             _Attack2Timer.Start();
         };
-    }
-
-    private void Awake()
-    {
-        Construct(new CountdownTimer(Attack1Period), new CountdownTimer(Attack2Period));
+        
         _Attack1Timer.Start();
         _Attack2Timer.Start();
         rb = gameObject.GetComponent<Rigidbody>();
-    }
-
-    private void Start()
-    {
     }
     Vector2[] directions = new Vector2[]
         {

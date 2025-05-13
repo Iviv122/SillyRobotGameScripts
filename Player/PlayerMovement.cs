@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Player))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Player),typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
@@ -18,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 input;
     public event Action OnJumpInput;
-    public event Action OnMoveInput;
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -34,10 +30,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(input.x * player.Stats.Speed, rb.linearVelocity.y);
     }
-    private void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
         input = value.Get<Vector2>();
-        OnMoveInput?.Invoke();
     }
     private void DisablePlayerCollider()
     {

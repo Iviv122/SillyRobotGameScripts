@@ -71,6 +71,8 @@ public class InteractManager
                     useLabel.SetText("Install");
                     break;
             }
+        }else{
+            useLabel.SetText("Use");
         }
     }
 

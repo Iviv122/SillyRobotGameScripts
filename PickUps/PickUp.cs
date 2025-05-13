@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PickUp : MonoBehaviour, IInteract
@@ -7,7 +8,7 @@ public class PickUp : MonoBehaviour, IInteract
     public IPickUp item;
     Rigidbody2D rb;
     public PickUpType pickUp;
-
+    public event Action OnUse;
     public void Use(object obj)
     {
         if (obj is InteractManager interactManager)
