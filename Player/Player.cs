@@ -60,6 +60,10 @@ public class Player: MonoBehaviour
         FillBodyParts(); 
         Warmup();
     }
+    void Start()
+    {
+        Warmup();
+    }
     void Die(){
         Debug.Log("I am dead =)");
     }
@@ -70,6 +74,7 @@ public class Player: MonoBehaviour
     }
     public void Warmup(){
         interactManager.TryUse();
+        BaseStats.CurrentHealth = BaseStats.CurrentHealth;
     }
     public void FillBodyParts(){
         bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Head));

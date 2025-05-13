@@ -19,7 +19,17 @@ public class HealthBar : MonoBehaviour
     }
     void HandleUpdate()
     {
-        slider.maxValue = player.Stats.Health;
-        slider.value = player.BaseStats.CurrentHealth;
+        if(slider != null){
+            slider.maxValue = player.Stats.Health;
+            slider.value = player.BaseStats.CurrentHealth;
+        }else{
+            Debug.Log("No HealthBar Slider");
+        }
+    
+        if(text != null){
+            text.text = player.BaseStats.CurrentHealth + "/" + player.Stats.Health;
+        }else{
+            Debug.Log("No HealthBar Text");
+        }
     }
 }

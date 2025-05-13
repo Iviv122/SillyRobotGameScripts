@@ -10,39 +10,55 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Level _currentLevel;
     [SerializeField] int _levelCounter = 0;
     [SerializeField] Collider2D col;
+    [SerializeField] DelayCounter delayCounter;
 
     [Inject] private DiContainer _container;
 
     [Inject]
-    void Construct(Player player)
+    void Construct(Player player, DelayCounter delayCounter)
     {
         _player = player;
+        this.delayCounter = delayCounter;
         col = gameObject.GetComponent<Collider2D>();
+
+        delayCounter.gameObject.SetActive(false);
+        delayCounter.OnEnd += StartLevel;
     }
 
     [Button]
     public void StartLevel()
     {
-        _player.transform.position = new Vector3(0,-9,0);
-        _currentLevel = _container.InstantiatePrefab(levels[_levelCounter], transform.position, Quaternion.identity, null).GetComponent<Level>(); 
+
+        if (_currentLevel != null)
+        {
+            Debug.LogWarning("Level already started!");
+            return;
+        }
+        delayCounter.gameObject.SetActive(false);
+        _player.transform.position = new Vector3(0, -9, 0);
+        _currentLevel = _container.InstantiatePrefab(levels[_levelCounter], transform.position, Quaternion.identity, null).GetComponent<Level>();
         _levelCounter++;
 
-        _currentLevel.OnLevelEnd += EndLevel; 
+        _currentLevel.OnLevelEnd += EndLevel;
     }
-    public void EndLevel(){
+    public void EndLevel()
+    {
         _currentLevel.OnLevelEnd -= EndLevel;
         Destroy(_currentLevel.gameObject);
-        // ? Delay();
-        StartLevel();
+        delayCounter.gameObject.SetActive(true);
+        delayCounter.StartCount();
     }
-    public void StartTutorial(){
-        tutorial = _container.InstantiatePrefab(tutorial,transform.position,Quaternion.identity,null).GetComponent<Tutorial>();
+    public void StartTutorial()
+    {
+        delayCounter.gameObject.SetActive(false);
+        tutorial = _container.InstantiatePrefab(tutorial, transform.position, Quaternion.identity, null).GetComponent<Tutorial>();
         tutorial.OnTutorialEnd += EndTutorial;
     }
-    public void EndTutorial(){
+    public void EndTutorial()
+    {
         Destroy(tutorial.gameObject);
-        // ? Delay();
-        StartLevel();
+        delayCounter.gameObject.SetActive(true);
+        delayCounter.StartCount();
     }
     void SpawnInsideCol()
     {
