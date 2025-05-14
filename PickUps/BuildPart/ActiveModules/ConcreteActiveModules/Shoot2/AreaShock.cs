@@ -1,11 +1,11 @@
 using UnityEngine;
-public class AreaShock : ActiveModule 
+public class AreaShock : ActiveModule
 {
     public override ModuleType ModuleType => ModuleType.SecondAttack;
 
     public override float EnergyConsuption => 5;
 
-    Color color = new Color(0.537f, 0.812f, 0.941f,0.3f);
+    Color color = new Color(0.537f, 0.812f, 0.941f, 0.3f);
     Explosion expl;
     float radius = 5;
     float damage = 5;
@@ -17,19 +17,22 @@ public class AreaShock : ActiveModule
 
     public override void OnPickUpThis(Player player)
     {
-        expl = new(radius,4f,player,color);
+        expl = new(radius, 4f, player, color);
     }
 
-    override public void Use(Player player){
+    override public void Use(Player player)
+    {
+
 
         expl.Explode();
-        Collider2D[] cols = Physics2D.OverlapCircleAll(player.transform.position,5);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(player.transform.position, 5);
         foreach (Collider2D i in cols)
         {
             IDamageable a;
-            if(i.gameObject.TryGetComponent<IDamageable>(out a)){
+            if (i.gameObject.TryGetComponent<IDamageable>(out a))
+            {
                 a.Damage(damage);
-            }    
+            }
         }
     }
 }

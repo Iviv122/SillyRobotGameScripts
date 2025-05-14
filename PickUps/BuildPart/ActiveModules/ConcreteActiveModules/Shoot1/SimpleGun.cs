@@ -17,6 +17,7 @@ public class SimpleGun : ActiveModule
     }
     public override void Use(Player player)
     {
+
         Vector2 mousePos = GetMousePos();
         Vector2 baseDir = (mousePos - (Vector2)player.transform.position).normalized;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;

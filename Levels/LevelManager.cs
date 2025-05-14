@@ -7,6 +7,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Player _player;
     [SerializeField] Tutorial tutorial;
     [SerializeField] GameObject[] levels;
+    [SerializeField] GameObject[] EasyLevels;
+    [SerializeField] GameObject[] MediumLevels;
+    [SerializeField] GameObject[] HardLevels;
+    [SerializeField] GameObject[] events;
     [SerializeField] Level _currentLevel;
     [SerializeField] int _levelCounter = 0;
     [SerializeField] Collider2D col;
@@ -47,6 +51,16 @@ public class LevelManager : MonoBehaviour
         Destroy(_currentLevel.gameObject);
         delayCounter.gameObject.SetActive(true);
         delayCounter.StartCount();
+    }
+    public void StartEventFullRoom()
+    {
+        delayCounter.gameObject.SetActive(false);
+
+        _player.transform.position = new Vector3(0, -9, 0);
+        _currentLevel = _container.InstantiatePrefab(levels[_levelCounter], transform.position, Quaternion.identity, null).GetComponent<Level>();
+        _levelCounter++;
+
+        _currentLevel.OnLevelEnd += EndLevel;
     }
     public void StartTutorial()
     {

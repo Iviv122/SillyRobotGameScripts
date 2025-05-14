@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class HealthBar : MonoBehaviour
+public class EnergyBar : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Slider slider;
@@ -21,14 +21,14 @@ public class HealthBar : MonoBehaviour
     void HandleUpdate()
     {
         if(slider != null){
-            slider.maxValue = player.Stats.Health;
-            slider.value = player.BaseStats.CurrentHealth;
+            slider.maxValue = player.Stats.Energy;
+            slider.value = player.BaseStats.CurrentEnergy;
         }else{
             Debug.Log("No HealthBar Slider");
         }
     
         if(text != null){
-            text.text = player.BaseStats.CurrentHealth + "/" + player.Stats.Health;
+            text.text = player.BaseStats.CurrentEnergy + "/" + player.Stats.Energy;
         }else{
             Debug.Log("No HealthBar Text");
         }

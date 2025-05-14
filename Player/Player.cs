@@ -11,6 +11,7 @@ public class Player: MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] BaseStats baseStats;
     [SerializeField] private Stats stats;
+    [SerializeField] private StatsUpdater statsUpdater;
     [SerializeField] private Inventory inventory;
     [SerializeField] private BodyPartsManager bodyPartsManager;
     [SerializeField] private ModuleManager moduleManager;
@@ -44,18 +45,20 @@ public class Player: MonoBehaviour
         this.cam =cam;
     }
     void Awake() {
-        
-        baseStats = new BaseStats(100,5,5);
+        if(baseStats == null){
+            baseStats = new BaseStats(100,5,5,0,3);
+        }    
         baseStats.Die += Die;
         stats = new Stats(new StatsMediator(),baseStats);
+
+        statsUpdater= new(baseStats,stats);
+
         bodyPartsManager = new BodyPartsManager(this,stats,baseStats);
         moduleManager = new ModuleManager(this); 
-       
         inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
 
         interactManager = new InteractManager(this,headLabel,inventory,bodyPartsManager,moduleManager);
-
-        interactManager.PickUp(new SimpleGun());
+        interactManager.PickUp(new FanOfScrap());
 
         FillBodyParts(); 
         Warmup();
@@ -63,6 +66,7 @@ public class Player: MonoBehaviour
     void Start()
     {
         Warmup();
+        Refresh();
     }
     void Die(){
         Debug.Log("I am dead =)");
@@ -70,17 +74,22 @@ public class Player: MonoBehaviour
     void Update(){
     
         stats.Mediator.Update(Time.deltaTime);
+        statsUpdater.Update(Time.deltaTime);
         UpdateEvent?.Invoke();
     }
     public void Warmup(){
         interactManager.TryUse();
         BaseStats.CurrentHealth = BaseStats.CurrentHealth;
     }
+    public void Refresh(){
+        baseStats.CurrentHealth = stats.Health;
+        baseStats.CurrentEnergy = stats.Energy;
+    }
     public void FillBodyParts(){
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Head));
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Body));
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,0,1),BodyPartsType.Arms));
-        bodyPartsManager.AddBodyPart(new BodyPart(new BaseStats(1,2,1),BodyPartsType.Legs));
+        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Head));
+        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Body));
+        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Arms));
+        interactManager.PickUp(new BodyPart(new BaseStats(1,2,1,0,0),BodyPartsType.Legs));
         Debug.Log($"Health {Stats.Health}, Energy {Stats.Energy}, Speed {Stats.Speed}");
     }
     public void OnInventory(){

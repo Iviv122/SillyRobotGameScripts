@@ -46,7 +46,6 @@ public class CountdownTimer : Timer {
 
         if (IsRunning && Time <= 0) {
             Stop();
-            OnTimerStop?.Invoke();
         }
     }
 

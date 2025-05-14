@@ -61,10 +61,12 @@ public class Game : MonoBehaviour
         int health = UnityEngine.Random.Range(-2, 3);
         int speed = UnityEngine.Random.Range(-2, 3);
         int energy = UnityEngine.Random.Range(-2, 3);
+        int healthR = UnityEngine.Random.Range(-2, 3);
+        int energyR = UnityEngine.Random.Range(-2, 3);
 
         BodyPartsType type = RandomEnumValue<BodyPartsType>();
 
-        BodyPart part = new BodyPart(new BaseStats(health, speed, energy), type);
+        BodyPart part = new BodyPart(new BaseStats(health, speed, energy,healthR,energyR), type);
         return part;
     }
     public static T RandomEnumValue<T>()
