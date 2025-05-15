@@ -4,6 +4,7 @@ public class BaseStats
 {
     private float currentHealth;
     private float currentEnergy;
+    private float currentMoney = 0;
     public EventfullValue<float> Health = 20;
     public EventfullValue<float> Speed = 4;
     public EventfullValue<float> Energy = 5;
@@ -14,6 +15,22 @@ public class BaseStats
     public event Action ValuesChanged;
     public event Action Die;
 
+    public float CurrentMoney 
+    {
+        get { return CurrentMoney; }
+        set
+        {
+            if (value <= 0)
+            {
+                currentMoney = 0;
+            }
+            else
+            {
+                currentMoney = value;
+            }
+            ValuesChanged?.Invoke();
+        }
+    }
     public float CurrentHealth
     {
         get { return currentHealth; }
