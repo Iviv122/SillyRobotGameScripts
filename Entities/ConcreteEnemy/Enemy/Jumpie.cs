@@ -33,7 +33,7 @@ public class Jumpie : Entity
         float deltaY = player.transform.position.y - transform.position.y;
         float deltaX = player.transform.position.x - transform.position.x;
 
-        if (Mathf.Abs(deltaY) > 0.3f) // small threshold
+        if (deltaY > 0.3f) // small threshold
         {
             Jump();
         }
@@ -56,7 +56,7 @@ public class Jumpie : Entity
     {
         if (OnGround(Height))
         {
-            rb.linearVelocity = Vector2.up * JumpForce;
+            rb.linearVelocity += Vector2.up * JumpForce;
         }
     }
     public override void Die()
