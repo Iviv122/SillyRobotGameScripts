@@ -59,6 +59,56 @@ public class ItemSpawner : MonoBehaviour
         pickUp.transform.position = new Vector2(X, Y);
     }
 
+    public static void GetRandomCommonItem(float x, float y)
+    {
+        PickUp pickUp = new GameObject("CommonItem").AddComponent<PickUp>();
+
+        var itemTypes = Assembly.GetAssembly(typeof(Item)).GetTypes()
+                                .Where(t => t.IsSubclassOf(typeof(Item)))
+                                .ToArray();
+
+        var type = itemTypes[UnityEngine.Random.Range(0, itemTypes.Length)];
+        Item item = Activator.CreateInstance(type) as Item;
+        Debug.Log($"{type} was given");
+
+        pickUp.item = item;
+        pickUp.transform.position = new Vector2(x, y);
+    }
+
+    public static void GetRandomCommonActiveModule(float x, float y)
+    {
+        PickUp pickUp = new GameObject("ActiveModule").AddComponent<PickUp>();
+
+        var moduleTypes = Assembly.GetAssembly(typeof(ActiveModule)).GetTypes()
+                                  .Where(t => t.IsSubclassOf(typeof(ActiveModule)))
+                                  .ToArray();
+
+        var type = moduleTypes[UnityEngine.Random.Range(0, moduleTypes.Length)];
+        ActiveModule module = Activator.CreateInstance(type) as ActiveModule;
+        Debug.Log($"{type} was given");
+
+        pickUp.item = module;
+        pickUp.transform.position = new Vector2(x, y);
+    }
+
+    public static void GetRandomCommonBodyPart(float x, float y)
+    {
+        PickUp pickUp = new GameObject("BodyPart").AddComponent<PickUp>();
+
+        int health = UnityEngine.Random.Range(-2, 3);
+        int speed = UnityEngine.Random.Range(-2, 3);
+        int energy = UnityEngine.Random.Range(-2, 3);
+        int healthR = UnityEngine.Random.Range(-2, 3);
+        int energyR = UnityEngine.Random.Range(-2, 3);
+
+        BodyPartsType type = RandomEnumValue<BodyPartsType>();
+        BodyPart part = new BodyPart(new BaseStats(health, speed, energy, healthR, energyR), type);
+        Debug.Log($"{type} BodyPart was given");
+
+        pickUp.item = part;
+        pickUp.transform.position = new Vector2(x, y);
+    }
+
     public static T RandomEnumValue<T>()
     {
         var values = Enum.GetValues(typeof(T));

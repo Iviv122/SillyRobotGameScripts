@@ -17,7 +17,7 @@ public class BaseStats
 
     public float CurrentMoney 
     {
-        get { return CurrentMoney; }
+        get { return currentMoney; }
         set
         {
             if (value <= 0)

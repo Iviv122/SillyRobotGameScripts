@@ -1,0 +1,38 @@
+using System;
+using UnityEngine;
+using Zenject;
+
+public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
+{
+    [SerializeField] Player player;
+    [SerializeField] float cost;
+
+    public event Action OnUse;
+    public event Action OnBuy;
+    [Inject]
+    void Construct(Player player)
+    {
+        this.player = player;
+    }
+    public void Buy()
+    {
+
+        player.BaseStats.CurrentMoney -= cost;
+        ItemSpawner.GetRandomCommonActiveModule(0,0);
+    }
+    public void Use(object obj)
+    {
+        if (obj is InteractManager interactManager)
+        {
+            // multiply on level?
+            if (player.BaseStats.CurrentMoney >= cost)
+            {
+                Buy();
+            }
+            else
+            {
+                // play cancel sound
+            }
+        }
+    }
+}
