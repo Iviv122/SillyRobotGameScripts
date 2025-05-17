@@ -5,7 +5,7 @@ public class PickUp : MonoBehaviour, IInteract
 {
     SpriteRenderer sr;
     CircleCollider2D col;
-    public IPickUp item;
+    public ISprite item;
     Rigidbody2D rb;
     public PickUpType pickUp;
     public event Action OnUse;
@@ -17,11 +17,10 @@ public class PickUp : MonoBehaviour, IInteract
         }
         Destroy(gameObject);
     }
-    public IPickUp Get()
+    public ISprite Get()
     {
         return item;
     }
-
     private void Awake()
     {
         GameObject colliderBox = new GameObject();
@@ -64,13 +63,13 @@ public class PickUp : MonoBehaviour, IInteract
         switch (pickUp)
         {
             case PickUpType.Item:
-                item = (IPickUp)Game.GetRandomCommonItem();
+                item = (ISprite)Game.GetRandomCommonItem();
                 break;
             case PickUpType.ActiveModule:
-                item = (IPickUp)Game.GetRandomCommonActiveModule();
+                item = (ISprite)Game.GetRandomCommonActiveModule();
                 break;
             case PickUpType.BodyPart:
-                item = (IPickUp)Game.GetRandomCommonBodyPart();
+                item = (ISprite)Game.GetRandomCommonBodyPart();
                 break;
         }
 

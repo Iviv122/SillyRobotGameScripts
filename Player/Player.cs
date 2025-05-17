@@ -18,7 +18,7 @@ public class Player: MonoBehaviour
     [SerializeField] private GameObject inventoryManager; // UI
     [SerializeField] private InteractManager interactManager;
     [SerializeField] private TextMeshProUGUI headLabel;
-
+    private InfoWindow InfoWindow;
     public event Action UpdateEvent;
     public event Action Attack;
     public event Action Attack1;
@@ -41,31 +41,32 @@ public class Player: MonoBehaviour
         }
     }
     [Inject]
-    void Construct(Camera cam){
-        this.cam =cam;
-    }
-    void Awake() {
-        if(baseStats == null){
-            baseStats = new BaseStats(100,5,5,0,3);
-        }    
-        baseStats.Die += Die;
-        stats = new Stats(new StatsMediator(),baseStats);
-
-        statsUpdater= new(baseStats,stats);
-
-        bodyPartsManager = new BodyPartsManager(this,stats,baseStats);
-        moduleManager = new ModuleManager(this); 
-        inventory = new(this,GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
-
-        interactManager = new InteractManager(this,headLabel,inventory,bodyPartsManager,moduleManager);
-        interactManager.PickUp(new FanOfScrap());
-
-        FillBodyParts(); 
-        Warmup();
+    void Construct(Camera cam, InfoWindow infoWindow)
+    {
+        this.cam = cam;
+        this.InfoWindow = infoWindow;
     }
     void Start()
     {
+        if (baseStats == null)
+        {
+            baseStats = new BaseStats(100, 5, 5, 0, 3);
+        }
+        baseStats.Die += Die;
+        stats = new Stats(new StatsMediator(), baseStats);
+
+        statsUpdater = new(baseStats, stats);
+
+        bodyPartsManager = new BodyPartsManager(this, stats, baseStats);
+        moduleManager = new ModuleManager(this);
+        inventory = new(this, GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
+
+        interactManager = new InteractManager(this, InfoWindow, headLabel, inventory, bodyPartsManager, moduleManager);
+        interactManager.PickUp(new FanOfScrap());
+
+        FillBodyParts();
         Warmup();
+
         Refresh();
     }
     void Die(){

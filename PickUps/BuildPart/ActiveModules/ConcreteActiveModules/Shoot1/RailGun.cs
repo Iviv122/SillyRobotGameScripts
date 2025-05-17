@@ -7,13 +7,19 @@ public class RailGun : ActiveModule
     public override float EnergyConsuption => 8;
 
     GameObject pellet;
+    ProjectileScriptableObject projectile;
     public override Sprite Sprite()
     {
         return Resources.Load<Sprite>("Sprites/ActiveModules/RailGun");
     }
-    public override void OnPickUpThis(Player player)
+    public override void LoadData()
     {
         pellet = Resources.Load("Projectile/FlyingParticle") as GameObject;
+        projectile = Resources.Load("ProjectileData/Particle") as ProjectileScriptableObject;
+    }
+    public override void OnPickUpThis(Player player)
+    {
+        LoadData();
     }
     public override void Use(Player player)
     {
@@ -28,4 +34,13 @@ public class RailGun : ActiveModule
         Game.CreateObject(pellet, player.transform.position + direction.normalized, rotation);
     }
 
+    public override string GetTitle()
+    {
+        return "Rail Gun";
+    }
+
+    public override string GetDescription()
+    {
+        return $"Shoots single particle on high speeds with damage {projectile.Damage} and consuming {EnergyConsuption}";
+    }
 }

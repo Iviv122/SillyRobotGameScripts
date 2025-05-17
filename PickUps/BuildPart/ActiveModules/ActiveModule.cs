@@ -1,11 +1,12 @@
 using UnityEngine;
 
-abstract public class ActiveModule: IPickUp 
+abstract public class ActiveModule: ISprite, IInfo 
 {
     abstract public ModuleType ModuleType {get;}
     abstract public Sprite Sprite();
     abstract public float EnergyConsuption {get ;}
-    virtual public void OnPickUpThis(Player player){}
+    virtual public void LoadData(){}
+    virtual public void OnPickUpThis(Player player) { }
     abstract public void Use(Player player);
 
     protected static Vector2 GetMousePos(){
@@ -14,4 +15,7 @@ abstract public class ActiveModule: IPickUp
         //Debug.Log(pos);
         return pos; 
     }
+
+    abstract public string GetTitle();
+    abstract public string GetDescription();
 }

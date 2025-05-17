@@ -35,4 +35,14 @@ public class AreaShock : ActiveModule
             }
         }
     }
+
+    public override string GetTitle()
+    {
+        return "Mass shoker";
+    }
+
+    public override string GetDescription()
+    {
+        return $"Deals {damage} damage in {radius} radius, consumes {EnergyConsuption}";
+    }
 }

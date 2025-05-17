@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IDropPickUp
 {
-    public void DropPickUp(IPickUp item, Transform position)
+    public void DropPickUp(ISprite item, Transform position)
     {
         GameObject obj = new GameObject();
         PickUp pickUp = obj.AddComponent<PickUp>();

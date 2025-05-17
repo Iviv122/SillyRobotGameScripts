@@ -1,27 +1,17 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyPart : IPickUp
+public class BodyPart : ISprite, IInfo
 {
     protected Sprite sprite;
-    public List<StatModifier> Mods { get; }
     public BaseStats Stats { get; }
     public BodyPartsType Type { get; }
 
-    public BodyPart(BaseStats baseStats, BodyPartsType type, List<StatModifier> mods)
-    {
-        Stats = baseStats;
-        Mods = mods;
-        Type = type;
-        sprite = chooseSprite(type);
-    }
     public BodyPart(BaseStats baseStat, BodyPartsType type)
     {
         Stats = baseStat;
         Type = type;
         sprite = chooseSprite(type);
     }
-
     private Sprite chooseSprite(BodyPartsType type)
     {
         switch (type)
@@ -59,5 +49,37 @@ public class BodyPart : IPickUp
     public Sprite Sprite()
     {
         return sprite;
+    }
+
+    public string GetTitle()
+    {
+        switch (Type)
+        {
+            case BodyPartsType.Head:
+                return "Head";
+            case BodyPartsType.Body:
+                return "Body";
+            case BodyPartsType.Arms:
+                return "Arms";
+            case BodyPartsType.Legs:
+                return "Legs";
+            default:
+                return "Error";
+        }
+
+    }
+
+    public string GetDescription()
+    {
+        string output = "";
+
+        output += "This body part grant next: " + "\n";
+
+        output += "MaxHealth: " + Stats.Health + "\n";
+        output += "MaxEnergy: " + Stats.Energy + "\n";
+        output += "Speed: " + Stats.Speed + "\n";
+        output += "HealthRegen: " + Stats.HealthRegen + "\n";
+        output += "EnergyRegen: " + Stats.EnergyRegen + "\n";
+        return output;
     }
 }

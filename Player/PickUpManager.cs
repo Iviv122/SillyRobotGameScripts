@@ -9,13 +9,15 @@ public class InteractManager
     readonly BodyPartsManager bodyPartsManager;
     readonly ModuleManager moduleManager;
     readonly TextMeshProUGUI useLabel;
-    public InteractManager(Player player, TextMeshProUGUI UseLabel, Inventory inventory, BodyPartsManager bodyPartsManager, ModuleManager moduleManager)
+    readonly InfoWindow infoWindow;
+    public InteractManager(Player player, InfoWindow infoWindow, TextMeshProUGUI UseLabel, Inventory inventory, BodyPartsManager bodyPartsManager, ModuleManager moduleManager)
     {
         this.inventory = inventory;
         this.bodyPartsManager = bodyPartsManager;
         this.moduleManager = moduleManager;
         this.playerTransform = player.transform;
         this.useLabel = UseLabel;
+        this.infoWindow = infoWindow;
 
         player.Interact += TryUse;
 
@@ -37,10 +39,16 @@ public class InteractManager
         useLabel.gameObject.SetActive(nearbyPickUps.Count > 0);
         if (nearbyPickUps.Count > 0)
         {
+            infoWindow.gameObject.SetActive(true);
             updateLabelText(nearbyPickUps[0]);
         }
+        else
+        {
+            infoWindow.gameObject.SetActive(false);
+        }
+
     }
-    public void PickUp(IPickUp item)
+    public void PickUp(ISprite item)
     {
         switch (item)
         {
@@ -63,15 +71,24 @@ public class InteractManager
             {
                 case Item i:
                     useLabel.SetText("Pick up");
+                    infoWindow.InputText(i);
                     break;
                 case ActiveModule i:
                     useLabel.SetText("Install");
+                    infoWindow.InputText(i);
                     break;
                 case BodyPart i:
                     useLabel.SetText("Install");
+                    infoWindow.InputText(i);
                     break;
             }
-        }else{
+        }
+        else if (item is IBuy)
+        {
+            useLabel.SetText("Buy");
+        }
+        else
+        {
             useLabel.SetText("Use");
         }
     }

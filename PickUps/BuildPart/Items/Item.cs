@@ -1,6 +1,6 @@
 using UnityEngine;
 
-abstract public class Item : IPickUp 
+abstract public class Item : ISprite, IInfo 
 {
 
     abstract public Rarity RarityType(); 
@@ -17,6 +17,7 @@ abstract public class Item : IPickUp
     virtual public void OnItemPickUp(Player player){
 
     }
-
+    public abstract string GetTitle();
+    public abstract string GetDescription();
     abstract public Sprite Sprite();
 }

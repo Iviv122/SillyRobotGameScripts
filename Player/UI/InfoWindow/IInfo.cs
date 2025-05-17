@@ -1,5 +1,6 @@
-public interface IInfo 
+public interface IInfo
 {
-    public string Title();
-    public string Description();
+    public string GetTitle();
+    public string GetDescription();
+    
 }

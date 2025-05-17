@@ -13,7 +13,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<PlayerMovement>().FromComponentInHierarchy().AsSingle();
         Container.Bind<LevelManager>().FromComponentInHierarchy().AsSingle();
         Container.Bind<DelayCounter>().FromComponentInHierarchy().AsSingle();
-
+        Container.Bind<InfoWindow>().FromComponentInHierarchy().AsSingle();
         //Container.Bind<Item>().To<FoorBattery>().AsTransient().WhenInjectedInto<Inventory>(); Interface/abstract injection
         //Container.Instanciate(Something)  In runtime (not in this script)
 

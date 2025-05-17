@@ -10,7 +10,6 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] float X;
     [SerializeField] float Y;
 
-    [Inject]
 
     [Button]
     public void GetRandomCommonItem()
@@ -35,7 +34,7 @@ public class ItemSpawner : MonoBehaviour
         var type = test[UnityEngine.Random.Range(0, test.Length)];
         ActiveModule item = Activator.CreateInstance(type) as ActiveModule;
         Debug.Log(type + " was given");
-
+        item.LoadData();
         pickUp.item = item;
         pickUp.transform.position = new Vector2(X, Y);
     }
@@ -86,7 +85,7 @@ public class ItemSpawner : MonoBehaviour
         var type = moduleTypes[UnityEngine.Random.Range(0, moduleTypes.Length)];
         ActiveModule module = Activator.CreateInstance(type) as ActiveModule;
         Debug.Log($"{type} was given");
-
+        module.LoadData();
         pickUp.item = module;
         pickUp.transform.position = new Vector2(x, y);
     }

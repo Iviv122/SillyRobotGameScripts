@@ -1,19 +1,27 @@
 using UnityEngine;
 
-public class SimpleGun : ActiveModule
+public class PipeGun : ActiveModule
 {
     public override ModuleType ModuleType => ModuleType.MainAttack;
 
-    public override float EnergyConsuption => 2;
+    public override float EnergyConsuption => 1;
 
     GameObject pellet;
+    ProjectileScriptableObject projectile;
     public override Sprite Sprite()
     {
-        return Resources.Load<Sprite>("Sprites/ActiveModules/FanOfScrap");
+        return Resources.Load<Sprite>("Sprites/ActiveModules/PipeGun");
+    }
+    public override void LoadData()
+    {
+        
+        pellet = Resources.Load("Projectile/FlyingScrap") as GameObject;
+        projectile = Resources.Load("ProjectileData/FlyingScrap") as ProjectileScriptableObject;
+
     }
     public override void OnPickUpThis(Player player)
     {
-        pellet = Resources.Load("Projectile/FlyingScrap") as GameObject;
+        LoadData();
     }
     public override void Use(Player player)
     {
@@ -28,4 +36,13 @@ public class SimpleGun : ActiveModule
         Game.CreateObject(pellet, player.transform.position + direction.normalized, rotation);
     }
 
+    public override string GetTitle()
+    {
+        return "Pipe Gun";
+    }
+
+    public override string GetDescription()
+    {
+        return $"Shoots single bullet with {projectile.Damage} while consuming {EnergyConsuption}";
+    }
 }

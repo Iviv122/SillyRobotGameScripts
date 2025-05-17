@@ -7,13 +7,19 @@ public class RocketLauncher : ActiveModule
     public override float EnergyConsuption => 3;
 
     GameObject pellet;
+    ProjectileScriptableObject projectile;
     public override Sprite Sprite()
     {
         return Resources.Load<Sprite>("Sprites/ActiveModules/RocketLauncher");
     }
-    public override void OnPickUpThis(Player player)
+    public override void LoadData()
     {
         pellet = Resources.Load("Projectile/Rocket") as GameObject;
+        projectile = Resources.Load("ProjectileData/Rocket") as ProjectileScriptableObject;
+    }
+    public override void OnPickUpThis(Player player)
+    {
+        LoadData();
     }
     public override void Use(Player player)
     {
@@ -24,5 +30,15 @@ public class RocketLauncher : ActiveModule
         Quaternion rotation = Quaternion.Euler(0, 0, baseAngle);
 
         Game.CreateObject(pellet, (Vector2)player.transform.position + baseDir, rotation);
+    }
+
+    public override string GetTitle()
+    {
+        return "Rocket Launcher";
+    }
+
+    public override string GetDescription()
+    {
+        return $"Shoots single rocket with damage {projectile.Damage} and radius {projectile.Radius} while consuming {EnergyConsuption} energy";
     }
 }

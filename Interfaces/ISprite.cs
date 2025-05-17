@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPickUp 
+public interface ISprite 
 {
 
     abstract public Sprite Sprite();

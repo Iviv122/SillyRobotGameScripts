@@ -7,13 +7,21 @@ public class FanOfScrap : ActiveModule
     public override float EnergyConsuption => 2;
 
     GameObject pellet;
+    ProjectileScriptableObject projectile;
     public override Sprite Sprite()
     {
         return Resources.Load<Sprite>("Sprites/ActiveModules/FanOfScrap");
     }
+    public override void LoadData()
+    {
+        
+        pellet = Resources.Load("Projectile/FlyingScrap") as GameObject;
+        projectile = Resources.Load("ProjectileData/FlyingScrap") as ProjectileScriptableObject;
+
+    }
     public override void OnPickUpThis(Player player)
     {
-        pellet = Resources.Load("Projectile/FlyingScrap") as GameObject;
+        LoadData();
     }
     public override void Use(Player player)
     {
@@ -36,4 +44,13 @@ public class FanOfScrap : ActiveModule
         }
     }
 
+    public override string GetTitle()
+    {
+        return "Fan Of Scrap";
+    }
+
+    public override string GetDescription()
+    {
+        return $"Shoots spray of 3 scap pieces each deals {projectile.Damage} and consuming {EnergyConsuption}";
+    }
 }

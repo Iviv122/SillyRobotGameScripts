@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DamageAura : Item 
+public class ElectricAura : Item 
 {
     public override Sprite Sprite()
     {
@@ -9,6 +9,16 @@ public class DamageAura : Item
     public override Rarity RarityType(){
         return Rarity.common;
     }
+
+    public override string GetTitle()
+    {
+        return "Electric Aura";    
+    }
+    public override string GetDescription()
+    {
+        return $"Deals {damage} damage in {radius} every {timer} seconds around player";
+    }
+
     Explosion expl;
     float radius = 1.5f;
     float timer = 0.75f;
