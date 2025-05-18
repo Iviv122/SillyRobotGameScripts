@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
 
     public static GameObject CreateObject(GameObject gameObject, Vector3 pos, Quaternion rot)
     {
-        return Instantiate(gameObject, pos, rot);
+        return Instantiate(gameObject, pos, rot,null);
     }
     public static Item GetRandomCommonItem()
     {

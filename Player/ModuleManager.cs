@@ -1,9 +1,10 @@
+using System;
 using System.ComponentModel;
 
 public class ModuleManager : IDropPickUp 
 {
     readonly Player player;
-
+    public event Action OnModuleUse;
     public ModuleManager(Player player)
     {
         this.player = player;
@@ -13,8 +14,13 @@ public class ModuleManager : IDropPickUp
         player.Module2 += OnQ;
         player.Module3 += OnR;
         player.Module4 += OnShift;
-    }
 
+
+    }
+    public void ModuleUse()
+    {
+        OnModuleUse?.Invoke();
+    }
     ActiveModule mainAttack;
     ActiveModule secondAttack;
     ActiveModule skill1;
@@ -23,12 +29,12 @@ public class ModuleManager : IDropPickUp
     ActiveModule skill4;
 
     // Input handlers
-    public void OnLeftMouse() => TryToUse(GetModule(ModuleType.MainAttack));
-    public void OnRightMouse() => TryToUse(GetModule(ModuleType.SecondAttack));
-    public void OnE() => TryToUse(GetModule(ModuleType.Skill1));
-    public void OnQ() => TryToUse(GetModule(ModuleType.Skill2));
-    public void OnR() => TryToUse(GetModule(ModuleType.Skill3));
-    public void OnShift() => TryToUse(GetModule(ModuleType.Skill4));
+    private void OnLeftMouse() => TryToUse(GetModule(ModuleType.MainAttack));
+    private void OnRightMouse() => TryToUse(GetModule(ModuleType.SecondAttack));
+    private void OnE() => TryToUse(GetModule(ModuleType.Skill1));
+    private void OnQ() => TryToUse(GetModule(ModuleType.Skill2));
+    private void OnR() => TryToUse(GetModule(ModuleType.Skill3));
+    private void OnShift() => TryToUse(GetModule(ModuleType.Skill4));
 
     // Module management
     public void AddModule(ActiveModule module)
@@ -43,7 +49,7 @@ public class ModuleManager : IDropPickUp
         }
     }
 
-    public void RemoveModule(ModuleType type)
+    private void RemoveModule(ModuleType type)
     {
         DropPickUp(GetModule(type),player.transform);
         SetModule(type); // clear the module slot
@@ -55,13 +61,16 @@ public class ModuleManager : IDropPickUp
         AddModule(newModule);
     }
     private void TryToUse(ActiveModule module){
-        if(module != null){
-            if(module.EnergyConsuption > player.BaseStats.CurrentEnergy){
+        if (module != null)
+        {
+            if (module.EnergyConsuption > player.BaseStats.CurrentEnergy)
+            {
                 // Show that there is no energy or cooldown
-                return;     
+                return;
             }
             player.BaseStats.CurrentEnergy -= module.EnergyConsuption;
             module.Use(player);
+            ModuleUse();
         }
     }
     private ActiveModule GetModule(ModuleType type)

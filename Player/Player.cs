@@ -18,6 +18,7 @@ public class Player: MonoBehaviour
     [SerializeField] private GameObject inventoryManager; // UI
     [SerializeField] private InteractManager interactManager;
     [SerializeField] private TextMeshProUGUI headLabel;
+    [SerializeField] private PlayerMovement playerMovement;
     private InfoWindow InfoWindow;
     public event Action UpdateEvent;
     public event Action Attack;
@@ -40,6 +41,19 @@ public class Player: MonoBehaviour
             return baseStats;
         }
     }
+    public ModuleManager ModuleManager 
+    {
+        get{
+            return moduleManager;
+        }
+    }
+    public PlayerMovement PlayerMovement
+    {
+        get
+        {
+            return playerMovement; 
+        }
+    }
     [Inject]
     void Construct(Camera cam, InfoWindow infoWindow)
     {
@@ -59,7 +73,8 @@ public class Player: MonoBehaviour
 
         bodyPartsManager = new BodyPartsManager(this, stats, baseStats);
         moduleManager = new ModuleManager(this);
-        inventory = new(this, GetComponent<PlayerMovement>());  //ALARM PLAYERMOVEMNT COMPONENT!!!
+        playerMovement = GetComponent<PlayerMovement>();
+        inventory = new(this, playerMovement);  //ALARM PLAYERMOVEMNT COMPONENT!!!
 
         interactManager = new InteractManager(this, InfoWindow, headLabel, inventory, bodyPartsManager, moduleManager);
         interactManager.PickUp(new FanOfScrap());

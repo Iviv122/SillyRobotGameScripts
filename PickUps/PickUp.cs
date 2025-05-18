@@ -75,5 +75,4 @@ public class PickUp : MonoBehaviour, IInteract
 
     }
 
-
 }

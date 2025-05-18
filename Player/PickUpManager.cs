@@ -39,8 +39,12 @@ public class InteractManager
         useLabel.gameObject.SetActive(nearbyPickUps.Count > 0);
         if (nearbyPickUps.Count > 0)
         {
-            infoWindow.gameObject.SetActive(true);
+
             updateLabelText(nearbyPickUps[0]);
+            if (nearbyPickUps[0] is IInfo || nearbyPickUps[0] is PickUp)
+            {
+                infoWindow.gameObject.SetActive(true);
+            }
         }
         else
         {
@@ -83,13 +87,18 @@ public class InteractManager
                     break;
             }
         }
-        else if (item is IBuy)
+        else if (item is IBuy Seller)
         {
             useLabel.SetText("Buy");
+            infoWindow.InputText(Seller);
         }
         else
         {
             useLabel.SetText("Use");
+            if (item is IInfo)
+            {
+                infoWindow.InputText((IInfo)item);
+            }
         }
     }
 

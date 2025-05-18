@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
+public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy 
 {
     [SerializeField] Player player;
     [SerializeField] float cost;
@@ -18,7 +18,7 @@ public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
     {
 
         player.BaseStats.CurrentMoney -= cost;
-        ItemSpawner.GetRandomCommonActiveModule(0,0);
+        ItemSpawner.GetRandomCommonActiveModule(0, 0);
     }
     public void Use(object obj)
     {
@@ -34,5 +34,14 @@ public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
                 // play cancel sound
             }
         }
+    }
+    public string GetTitle()
+    {
+        return $"Vending Machine";
+    }
+
+    public string GetDescription()
+    {
+        return $"Buy random active module \n Costs: {cost}";
     }
 }

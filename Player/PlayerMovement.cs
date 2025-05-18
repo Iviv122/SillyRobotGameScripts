@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Player),typeof(PlayerInput))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Player), typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
@@ -48,22 +48,29 @@ public class PlayerMovement : MonoBehaviour
 
         HandleState();
 
-        if(state == PlayerState.InPlatform){
+        if (state == PlayerState.InPlatform)
+        {
             DisablePlayerCollider();
-        }else{
+        }
+        else
+        {
             EnablePlayerCollider();
         }
 
     }
     void OnJump()
     {
+
         if (isGrounded)
         {
-            rb.linearVelocity += new Vector2(0, player.Stats.Speed);
-            OnJumpInput?.Invoke();
+            Jump();
         }
     }
-
+    public void Jump()
+    {
+        rb.linearVelocity += new Vector2(0, player.Stats.Speed);
+        OnJumpInput?.Invoke();
+    }
     bool OnGround()
     {
         return Physics2D.Raycast(transform.position, Vector2.down, 0.45f, groundLayer);
