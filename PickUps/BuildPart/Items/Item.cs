@@ -33,6 +33,10 @@ abstract public class Item : ISprite, IInfo
     {
 
     }
+    virtual public void OnDamageTaken(Player player)
+    {
+
+    }
     public abstract string GetTitle();
     public abstract string GetDescription();
     abstract public Sprite Sprite();

@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject spawnedEnemy;
 
+
     void Start()
     {
         Debug.Log("Enemy Spawned");

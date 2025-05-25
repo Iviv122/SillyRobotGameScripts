@@ -63,12 +63,12 @@ public class ModuleManager : IDropPickUp
     private void TryToUse(ActiveModule module){
         if (module != null)
         {
-            if (module.EnergyConsuption > player.BaseStats.CurrentEnergy)
+            if (module.EnergyConsuption > player.Stats.CurrentEnergy)
             {
                 // Show that there is no energy or cooldown
                 return;
             }
-            player.BaseStats.CurrentEnergy -= module.EnergyConsuption;
+            player.Stats.CurrentEnergy -= module.EnergyConsuption;
             module.Use(player);
             ModuleUse();
         }

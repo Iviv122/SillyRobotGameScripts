@@ -30,7 +30,7 @@ public class Entity : MonoBehaviour, IDamageable
         Vector2 direction = (rb.transform.position-transform.position).normalized;
 
         rb.AddForce(direction*force);
-        player.BaseStats.CurrentHealth = Damage;
+        player.DealDamage(Damage);
 
     }
     virtual public void Die(){

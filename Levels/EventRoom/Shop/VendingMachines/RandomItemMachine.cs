@@ -17,15 +17,15 @@ public class RandomItemMachine : MonoBehaviour, IInteract, IBuy
     public void Buy()
     {
 
-        player.BaseStats.CurrentMoney -= cost;
-        ItemSpawner.GetRandomCommonItem(0, 0);
+        player.Stats.CurrentMoney -= cost;
+        ItemSpawner.GetRandomCommonItem(transform.position.x, 0);
     }
     public void Use(object obj)
     {
         if (obj is InteractManager interactManager)
         {
             // multiply on level?
-            if (player.BaseStats.CurrentMoney >= cost)
+            if (player.Stats.CurrentMoney >= cost)
             {
                 Buy();
             }

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
@@ -9,18 +8,33 @@ public class Game : MonoBehaviour
 {
     [SerializeField] float SpawnPosX;
     [SerializeField] float SpawnPosY;
-    [SerializeField] LevelManager levelManager;
+    [SerializeField] LevelGeneration LevelGen;
+    [SerializeField] Player player;
     public static Game Instance { get; private set; }
 
     [Inject]
-    void Construct(LevelManager manager){
-        levelManager =manager; 
-    }
+    void Construct(Player player, LevelGeneration LevelGen)
+    {
+        this.player = player;
+        this.LevelGen = LevelGen;
 
-    public void StartGame(){
-        levelManager.StartTutorial();
-    }
+        HidePlayer(); 
 
+        LevelGen.StopGenerate();
+        LevelGen.OnEntrancePlaced += PlacePlayer; 
+    }
+    public void HidePlayer() {
+        player.transform.position = new Vector3(-100, -100, -100);
+    }
+    public void StartGame()
+    {
+        HidePlayer();
+        LevelGen.GenerateFromZero();
+    }
+    private void PlacePlayer()
+    {
+        LevelGen.PlaceOnSpawn(player.transform);
+    }
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -68,6 +82,14 @@ public class Game : MonoBehaviour
 
         BodyPart part = new BodyPart(new BaseStats(health, speed, energy,healthR,energyR), type);
         return part;
+    }
+    public static Candy GetRandomCandy()
+    {
+        var test = Assembly.GetAssembly(typeof(Candy)).GetTypes().Where(t => t.IsSubclassOf(typeof(Candy))).ToArray();
+        var type = test[UnityEngine.Random.Range(0, test.Length)];
+        Candy item = Activator.CreateInstance(type) as Candy;
+        Debug.Log(type + "Was Given");
+        return item;
     }
     public static T RandomEnumValue<T>()
     {

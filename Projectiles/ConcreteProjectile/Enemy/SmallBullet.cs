@@ -10,7 +10,7 @@ public class SmallBullet : Projectile
     }
     void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.TryGetComponent<Player>(out Player prey)){
-            prey.BaseStats.CurrentHealth -= damage;
+            prey.DealDamage(damage);
         }
         Destroy(gameObject);
     }

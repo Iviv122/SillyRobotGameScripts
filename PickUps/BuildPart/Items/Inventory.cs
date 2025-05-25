@@ -12,6 +12,7 @@ public class Inventory
         player.UpdateEvent += OnUpdate;
         movement.OnJumpInput += OnJump;
         player.ModuleManager.OnModuleUse += OnModuleUse;
+        player.Stats.OnDamageTaken += DamageTaken;
     }
 
     void OnJump()
@@ -44,6 +45,13 @@ public class Inventory
         foreach (Item i in items)
         {
             i.OnItemDelete(Player);
+        }
+    }
+    public void DamageTaken()
+    {
+        foreach (Item i in items)
+        {
+            i.OnDamageTaken(Player);
         }
     }
     public void OnModuleUse()

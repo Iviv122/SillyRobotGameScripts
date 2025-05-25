@@ -15,20 +15,20 @@ public class HealthBar : MonoBehaviour
     }
     void Start()
     {
-        player.BaseStats.ValuesChanged += HandleUpdate;
+        player.Stats.ValuesChanged += HandleUpdate;
         HandleUpdate();
     }
     void HandleUpdate()
     {
         if(slider != null){
             slider.maxValue = player.Stats.Health;
-            slider.value = player.BaseStats.CurrentHealth;
+            slider.value = player.Stats.CurrentHealth;
         }else{
             Debug.Log("No HealthBar Slider");
         }
     
         if(text != null){
-            text.text = player.BaseStats.CurrentHealth + "/" + player.Stats.Health;
+            text.text = player.Stats.CurrentHealth + "/" + player.Stats.Health;
         }else{
             Debug.Log("No HealthBar Text");
         }

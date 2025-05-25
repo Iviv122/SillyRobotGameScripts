@@ -8,7 +8,7 @@ public class Bouncy : Entity, Boss
     [SerializeField] float Attack1Period = 3;
     CountdownTimer _Attack2Timer;
     [SerializeField] float Attack2Period = 1;
-
+    [SerializeField] float ContactDamage = 10;
     [SerializeField] GameObject Projectile;
     [SerializeField] Rigidbody rb;
 
@@ -73,7 +73,7 @@ public class Bouncy : Entity, Boss
     {
         if (other.gameObject.TryGetComponent<Player>(out Player prey))
         {
-            prey.BaseStats.CurrentHealth -= 10;
+            prey.DealDamage(ContactDamage);
             rb.AddForce(Vector2.up*5);
 
         }

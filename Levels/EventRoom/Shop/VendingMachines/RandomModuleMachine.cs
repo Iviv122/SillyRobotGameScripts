@@ -17,7 +17,7 @@ public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
     public void Buy()
     {
 
-        player.BaseStats.CurrentMoney -= cost;
+        player.Stats.CurrentMoney -= cost;
         ItemSpawner.GetRandomCommonActiveModule(0, 0);
     }
     public void Use(object obj)
@@ -25,7 +25,7 @@ public class RandomModuleMachine : MonoBehaviour, IInteract, IBuy
         if (obj is InteractManager interactManager)
         {
             // multiply on level?
-            if (player.BaseStats.CurrentMoney >= cost)
+            if (player.Stats.CurrentMoney >= cost)
             {
                 Buy();
             }

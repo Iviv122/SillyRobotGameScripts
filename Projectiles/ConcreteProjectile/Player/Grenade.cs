@@ -8,15 +8,10 @@ public class grenade : Projectile
     }
     void Start()
     {
-        rb.linearVelocity = transform.right*Stats.Speed;
+        GoStraight();
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable prey))
-        {
-            prey.Damage(Stats.Damage);
-        }
-        expl.ExplodeAndDestroy();
-        Destroy(gameObject);
+        Explode(expl);
     }
 }

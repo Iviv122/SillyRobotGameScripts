@@ -10,8 +10,10 @@ public class InteractManager
     readonly ModuleManager moduleManager;
     readonly TextMeshProUGUI useLabel;
     readonly InfoWindow infoWindow;
+    readonly Player player;
     public InteractManager(Player player, InfoWindow infoWindow, TextMeshProUGUI UseLabel, Inventory inventory, BodyPartsManager bodyPartsManager, ModuleManager moduleManager)
     {
+        this.player = player;
         this.inventory = inventory;
         this.bodyPartsManager = bodyPartsManager;
         this.moduleManager = moduleManager;
@@ -65,6 +67,9 @@ public class InteractManager
             case BodyPart i:
                 bodyPartsManager.AddBodyPart(i);
                 break;
+            case Candy i:
+                i.Use(player);
+                break;
         }
     }
     private void updateLabelText(IInteract item)
@@ -83,6 +88,10 @@ public class InteractManager
                     break;
                 case BodyPart i:
                     useLabel.SetText("Install");
+                    infoWindow.InputText(i);
+                    break;
+                case Candy i:
+                    useLabel.SetText("Consume");
                     infoWindow.InputText(i);
                     break;
             }

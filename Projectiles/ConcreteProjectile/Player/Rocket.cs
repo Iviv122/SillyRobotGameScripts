@@ -6,15 +6,11 @@ public class Rocket : Projectile
     private void Awake(){
         expl = new(Stats.Radius,5f,this,Stats.ExplosionColor);
     }
-    private void Update() {
-        rb.linearVelocity = transform.right*Stats.Speed;
-    } 
-
+    private void Update()
+    {
+        GoStraight();
+    }
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.TryGetComponent<IDamageable>(out IDamageable prey)){
-            prey.Damage(Stats.Damage);
-        }
-        expl.ExplodeAndDestroy();
-        Destroy(gameObject);
+        Explode(expl);
     }
 }

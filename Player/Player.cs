@@ -29,9 +29,10 @@ public class Player: MonoBehaviour
     public event Action Module4;
     public event Action Interact;
     public event Action UseConsumable;
-    public Stats Stats 
+    public Stats Stats
     {
-        get{
+        get
+        {
             return stats;
         }
     }
@@ -66,8 +67,8 @@ public class Player: MonoBehaviour
         {
             baseStats = new BaseStats(100, 5, 5, 0, 3);
         }
-        baseStats.Die += Die;
         stats = new Stats(new StatsMediator(), baseStats);
+        stats.Die += Die;
 
         statsUpdater = new(baseStats, stats);
 
@@ -87,19 +88,28 @@ public class Player: MonoBehaviour
     void Die(){
         Debug.Log("I am dead =)");
     }
+    public void DealDamage(float damage)
+    {
+        stats.DealDamage(damage);
+    }
+    public void DealDamageNoProc(float damage)
+    {
+        Stats.DealDamageNoProc(damage);
+    }
     void Update(){
     
         stats.Mediator.Update(Time.deltaTime);
         statsUpdater.Update(Time.deltaTime);
         UpdateEvent?.Invoke();
     }
-    public void Warmup(){
+    public void Warmup()
+    {
         interactManager.TryUse();
-        BaseStats.CurrentHealth = BaseStats.CurrentHealth;
+        Refresh();
     }
     public void Refresh(){
-        baseStats.CurrentHealth = stats.Health;
-        baseStats.CurrentEnergy = stats.Energy;
+        stats.CurrentHealth = stats.Health;
+        stats.CurrentEnergy = stats.Energy;
     }
     public void FillBodyParts(){
         interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Head));

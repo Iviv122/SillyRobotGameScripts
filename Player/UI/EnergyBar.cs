@@ -15,20 +15,20 @@ public class EnergyBar : MonoBehaviour
     }
     void Start()
     {
-        player.BaseStats.ValuesChanged += HandleUpdate;
+        player.Stats.ValuesChanged += HandleUpdate;
         HandleUpdate();
     }
     void HandleUpdate()
     {
         if(slider != null){
             slider.maxValue = player.Stats.Energy;
-            slider.value = player.BaseStats.CurrentEnergy;
+            slider.value = player.Stats.CurrentEnergy;
         }else{
             Debug.Log("No HealthBar Slider");
         }
     
         if(text != null){
-            text.text = player.BaseStats.CurrentEnergy + "/" + player.Stats.Energy;
+            text.text = player.Stats.CurrentEnergy + "/" + player.Stats.Energy;
         }else{
             Debug.Log("No HealthBar Text");
         }

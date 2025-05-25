@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
 
 public class ItemSpawner : MonoBehaviour
 {
@@ -55,6 +54,16 @@ public class ItemSpawner : MonoBehaviour
         Debug.Log(type + " BodyPart was given");
 
         pickUp.item = part;
+        pickUp.transform.position = new Vector2(X, Y);
+    }
+    [Button]
+    public void GetRandomCandy()
+    {
+        PickUp pickUp = new GameObject().AddComponent<PickUp>();
+
+        Candy item = Game.GetRandomCandy();
+        item.LoadData();
+        pickUp.item = item;
         pickUp.transform.position = new Vector2(X, Y);
     }
 

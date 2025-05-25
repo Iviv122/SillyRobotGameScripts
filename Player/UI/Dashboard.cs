@@ -27,7 +27,7 @@ public class Dashboard : MonoBehaviour
     }
     void UpdateUI()
     {
-        currentHealth.SetText("Current Health: " + player.BaseStats.CurrentHealth.ToString());
+        currentHealth.SetText("Current Health: " + player.Stats.CurrentHealth.ToString());
         maxHealth.SetText("Max Health: " + player.Stats.Health.ToString());
         
         healthRegen.SetText("HealthRegen: " + player.Stats.HealthRegen.ToString());

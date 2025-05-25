@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class Explosion  
@@ -22,7 +21,7 @@ public class Explosion
         sr.color = new Color(1,0,0,0.3f);
         sr.sortingOrder = -1;
 
-        auraVisual.transform.localScale = new Vector3(radius*2f, radius*2f, 1f); // 2 * radius
+        auraVisual.transform.localScale = new Vector3(radius, radius, 1f); // 2 * radius
 
         FadeObject.FullTransperent(sr);
     }
@@ -40,7 +39,7 @@ public class Explosion
         sr.color = color;
         sr.sortingOrder = -1;
 
-        auraVisual.transform.localScale = new Vector3(radius*2f, radius*2f, 1f); // 2 * radius
+        auraVisual.transform.localScale = new Vector3(radius, radius, 1f); // 2 * radius
 
         FadeObject.FullTransperent(sr);
     }

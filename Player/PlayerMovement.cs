@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Collider2D col;
     [SerializeField] Player player;
+    [SerializeField] float jumpForce;
     [SerializeField] PlayerState state;
     public PlayerState State => state;
     [SerializeField] bool isGrounded;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(player);
 
     }
+
 
     private void FixedUpdate()
     {
@@ -68,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump()
     {
-        rb.linearVelocity += new Vector2(0, player.Stats.Speed);
+        rb.linearVelocity += new Vector2(0, jumpForce);
         OnJumpInput?.Invoke();
     }
     bool OnGround()

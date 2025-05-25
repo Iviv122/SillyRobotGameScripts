@@ -23,7 +23,7 @@ public class StatsUpdater
         countdownTimer.Tick(delta);
     }
     public void RegenStats(){
-        baseStats.CurrentHealth += stats.HealthRegen;
-        baseStats.CurrentEnergy += stats.EnergyRegen;
+        stats.CurrentHealth += stats.HealthRegen;
+        stats.CurrentEnergy += stats.EnergyRegen;
     }
 }

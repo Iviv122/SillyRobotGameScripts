@@ -71,6 +71,9 @@ public class PickUp : MonoBehaviour, IInteract
             case PickUpType.BodyPart:
                 item = (ISprite)Game.GetRandomCommonBodyPart();
                 break;
+            case PickUpType.Consumable:
+                item = (ISprite)Game.GetRandomCandy();
+                break;
         }
 
     }
