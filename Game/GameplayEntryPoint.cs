@@ -32,7 +32,6 @@ public class GameplayEntryPoint : MonoBehaviour
         SceneDIContainer = Instantiate(SceneDIContainer);
         LevelGeneration = SceneDIContainer.Container.InstantiatePrefab(LevelGeneration).GetComponent<LevelGeneration>();
         //LevelLayout = SceneDIContainer.Container.InstantiatePrefab(LevelLayout);
-
         Camera = SceneDIContainer.Container.InstantiatePrefab(Camera).GetComponent<Camera>();
         Player = SceneDIContainer.Container.InstantiatePrefab(Player).GetComponent<Player>();
         Game = SceneDIContainer.Container.InstantiatePrefab(Game).GetComponent<Game>();

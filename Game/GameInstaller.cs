@@ -11,6 +11,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<Camera>().FromComponentInHierarchy().AsSingle();
         Container.Bind<Player>().FromComponentInHierarchy().AsSingle(); // reuse same instance
         Container.Bind<PlayerMovement>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
         Container.Bind<LevelGeneration>().FromComponentInHierarchy().AsSingle();
         //Container.Bind<LevelManager>().FromComponentInHierarchy().AsSingle();
         //Container.Bind<DelayCounter>().FromComponentInHierarchy().AsSingle();

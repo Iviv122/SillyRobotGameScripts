@@ -1,11 +1,20 @@
 using UnityEngine;
+using Zenject;
 
 public class RoundTurret : Entity
 {
+    [SerializeField] float Exp = 10;
+    [SerializeField] Player player;
     [SerializeField] float attackSpeed;
     [SerializeField] GameObject bullet;
     [SerializeField] float angle;
     CountdownTimer timer = new CountdownTimer(1);
+
+    [Inject]
+    public void Construct(Player player)
+    {
+        this.player = player;
+    }
 
     void Start()
     {
@@ -50,6 +59,7 @@ public class RoundTurret : Entity
 
     public override void Die()
     {
+        GiveExp(player.LevelUpManager, Exp);        
         Destroy(gameObject);
     }
 

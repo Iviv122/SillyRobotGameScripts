@@ -1,8 +1,12 @@
+using System;
+using Unity.Collections;
 using UnityEngine;
 using Zenject;
 
 public class Jumpie : Entity
 {
+    [SerializeField] float Exp = 10;
+    [SerializeField] float ActivateRadius = 15;
     [SerializeField] Player player;
     [SerializeField] float Speed = 0.2f;
     [SerializeField] float JumpForce = 3f;
@@ -11,6 +15,9 @@ public class Jumpie : Entity
     [SerializeField] GameObject bullet;
     private Rigidbody2D rb;
     private CountdownTimer timer;
+
+    public event Action OnDamage;
+    bool activated = false;
 
     [Inject]
     void Construct(Player player)
@@ -25,26 +32,49 @@ public class Jumpie : Entity
             Shoot();
         };
         timer.Start();
+        DeActivate();
     }
+    void Activate()
+    {
+        if (!activated)
+        {
+            timer.Reset(attackPeriod);
+            timer.Start();
+            activated = true;
+        }
 
+    }
+    void DeActivate()
+    {
+        timer.Stop();
+        activated = false;
+    }
     void Update()
     {
-        timer.Tick(Time.deltaTime);
-        float deltaY = player.transform.position.y - transform.position.y;
-        float deltaX = player.transform.position.x - transform.position.x;
-
-        if (deltaY > 0.3f) // small threshold
+        if (TransformInRadius(player.transform, ActivateRadius))
         {
-            Jump();
+            Activate();
+        }
+        if (activated)
+        {
+            timer.Tick(Time.deltaTime);
+            float deltaY = player.transform.position.y - transform.position.y;
+            float deltaX = player.transform.position.x - transform.position.x;
+
+            if (deltaY > 0.3f) // small threshold
+            {
+                Jump();
+            }
+
+            if (Mathf.Abs(deltaX) < 0.1f) // small threshold
+            {
+                rb.linearVelocity = new Vector2(0, rb.linearVelocityY); // stop movement
+                return;
+            }
+            float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
+            rb.linearVelocity = new Vector2(direction * Speed, rb.linearVelocityY);
         }
 
-        if (Mathf.Abs(deltaX) < 0.1f) // small threshold
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocityY); // stop movement
-            return;
-        }
-        float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
-        rb.linearVelocity = new Vector2(direction * Speed, rb.linearVelocityY);
     }
     void Shoot()
     {

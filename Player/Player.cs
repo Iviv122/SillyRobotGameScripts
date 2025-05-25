@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 using Zenject;
 
 [RequireComponent(typeof(PlayerMovement))]
-public class Player: MonoBehaviour 
+public class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Camera cam;
     [SerializeField] BaseStats baseStats;
     [SerializeField] private Stats stats;
+    [SerializeField] private LevelUpManager levelUpManager;
     [SerializeField] private StatsUpdater statsUpdater;
     [SerializeField] private Inventory inventory;
     [SerializeField] private BodyPartsManager bodyPartsManager;
@@ -36,15 +37,17 @@ public class Player: MonoBehaviour
             return stats;
         }
     }
-    public BaseStats BaseStats 
+    public BaseStats BaseStats
     {
-        get{
+        get
+        {
             return baseStats;
         }
     }
-    public ModuleManager ModuleManager 
+    public ModuleManager ModuleManager
     {
-        get{
+        get
+        {
             return moduleManager;
         }
     }
@@ -52,9 +55,10 @@ public class Player: MonoBehaviour
     {
         get
         {
-            return playerMovement; 
+            return playerMovement;
         }
     }
+    public LevelUpManager LevelUpManager => levelUpManager;
     [Inject]
     void Construct(Camera cam, InfoWindow infoWindow)
     {
@@ -80,12 +84,15 @@ public class Player: MonoBehaviour
         interactManager = new InteractManager(this, InfoWindow, headLabel, inventory, bodyPartsManager, moduleManager);
         interactManager.PickUp(new FanOfScrap());
 
+        levelUpManager = new(baseStats);
+
         FillBodyParts();
         Warmup();
 
         Refresh();
     }
-    void Die(){
+    void Die()
+    {
         Debug.Log("I am dead =)");
     }
     public void DealDamage(float damage)
@@ -96,8 +103,9 @@ public class Player: MonoBehaviour
     {
         Stats.DealDamageNoProc(damage);
     }
-    void Update(){
-    
+    void Update()
+    {
+
         stats.Mediator.Update(Time.deltaTime);
         statsUpdater.Update(Time.deltaTime);
         UpdateEvent?.Invoke();
@@ -107,57 +115,73 @@ public class Player: MonoBehaviour
         interactManager.TryUse();
         Refresh();
     }
-    public void Refresh(){
+    public void Refresh()
+    {
         stats.CurrentHealth = stats.Health;
         stats.CurrentEnergy = stats.Energy;
     }
-    public void FillBodyParts(){
-        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Head));
-        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Body));
-        interactManager.PickUp(new BodyPart(new BaseStats(1,0,1,0,0),BodyPartsType.Arms));
-        interactManager.PickUp(new BodyPart(new BaseStats(1,2,1,0,0),BodyPartsType.Legs));
+    public void FillBodyParts()
+    {
+        interactManager.PickUp(new BodyPart(new BaseStats(1, 0, 1, 0, 0), BodyPartsType.Head));
+        interactManager.PickUp(new BodyPart(new BaseStats(1, 0, 1, 0, 0), BodyPartsType.Body));
+        interactManager.PickUp(new BodyPart(new BaseStats(1, 0, 1, 0, 0), BodyPartsType.Arms));
+        interactManager.PickUp(new BodyPart(new BaseStats(1, 2, 1, 0, 0), BodyPartsType.Legs));
         Debug.Log($"Health {Stats.Health}, Energy {Stats.Energy}, Speed {Stats.Speed}");
     }
-    public void OnInventory(){
+    public void OnInventory()
+    {
         Debug.Log("Invenory works");
-        inventoryManager.SetActive(!inventoryManager.activeSelf); 
+        inventoryManager.SetActive(!inventoryManager.activeSelf);
     }
 
-    void OnAttack(){
+    void OnAttack()
+    {
         Attack?.Invoke();
     }
-    void OnAttack1(){
+    void OnAttack1()
+    {
         Attack1?.Invoke();
     }
-    void OnRestart(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);    
+    void OnRestart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    void OnModule1(){
+    void OnModule1()
+    {
         Module1?.Invoke();
     }
-    void OnModule2(){
+    void OnModule2()
+    {
         Module2?.Invoke();
     }
-    void OnModule3(){
+    void OnModule3()
+    {
         Module3?.Invoke();
     }
-    void OnModule4(){
+    void OnModule4()
+    {
         Module4?.Invoke();
     }
-    void OnInteract(){
+    void OnInteract()
+    {
         Interact?.Invoke();
     }
-    void OnUseConsumable(){
+    void OnUseConsumable()
+    {
         UseConsumable?.Invoke();
     }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.TryGetComponent<IInteract>(out IInteract interact)){
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent<IInteract>(out IInteract interact))
+        {
             Debug.Log($"I can interact with something");
             interactManager.nearbyPickUps.Add(interact);
         }
     }
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.gameObject.TryGetComponent<IInteract>(out IInteract interact)){
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent<IInteract>(out IInteract interact))
+        {
             Debug.Log($"I can`t interact with something");
             interactManager.nearbyPickUps.Remove(interact);
         }

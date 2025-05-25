@@ -1,37 +1,61 @@
+using System;
 using UnityEngine;
 using Zenject;
 
 public class Turret : Entity
 {
+    [SerializeField] float Exp = 10;
     [SerializeField] Player player;
     [SerializeField] float attackSpeed;
     [SerializeField] GameObject bullet;
-    [SerializeField] float timeLeft;
-    CountdownTimer timer = new CountdownTimer(1);
-
+    [SerializeField] float ReactRadius;
+    CountdownTimer timer;
+    public event Action OnDamage;
+    bool activated = false;
     [Inject]
     void Construct(Player player)
     {
         this.player = player;
+        OnDamage += Activate;
     }
-    void Start()
+    void Activate()
     {
-        timer.Start();
+        if (!activated)
+        {
+
+            timer.Reset(attackSpeed);
+            timer.Start();
+            activated = true;
+        }
+    }
+    void DeActivate()
+    {
+        timer.Stop();
     }
     void Awake()
     {
-        
+        timer = new(1);
+        timer.OnTimerStop = () =>
+        {
+            timer.Reset();
+            timer.Start();
+            Shoot();
+        };
+        DeActivate();
+    }
+    void Start()
+    {
+        DeActivate();
     }
     void Update()
     {
-
-        timer.Tick(Time.deltaTime);
-        timeLeft = timer.Progress;
-        if (timer.IsFinished)
+        if (TransformInRadius(player.transform, ReactRadius))
         {
-            timer.Reset(attackSpeed);
-            timer.Start();
-            Shoot();
+            Activate();
+        }
+        if (activated)
+        {
+            timer.Tick(Time.deltaTime);
         }
     }
     void Shoot()
@@ -43,7 +67,8 @@ public class Turret : Entity
 
     public override void Die()
     {
-        Destroy(gameObject); 
+        GiveExp(player.LevelUpManager, Exp);
+        Destroy(gameObject);
     }
 
 }

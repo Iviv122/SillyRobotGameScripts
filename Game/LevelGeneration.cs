@@ -40,10 +40,12 @@ public class LevelGeneration : MonoBehaviour
     public event Action OnPathGenerated;
     public event Action OnRoomsFilled;
     public event Action OnEntrancePlaced;
+
     [Inject]
     void Construct(DiContainer container)
     {
         this.container = container;
+
     }
 
     [Button]
@@ -135,6 +137,7 @@ public class LevelGeneration : MonoBehaviour
         Collider2D[] list = Physics2D.OverlapBoxAll(pos, boxSize, 0);
         foreach (var item in list)
         {
+            
             Destroy(item.gameObject);
         }
     }

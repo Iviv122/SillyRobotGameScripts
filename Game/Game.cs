@@ -9,32 +9,23 @@ public class Game : MonoBehaviour
     [SerializeField] float SpawnPosX;
     [SerializeField] float SpawnPosY;
     [SerializeField] LevelGeneration LevelGen;
+    [SerializeField] GameManager gameManager;
     [SerializeField] Player player;
     public static Game Instance { get; private set; }
 
     [Inject]
-    void Construct(Player player, LevelGeneration LevelGen)
+    void Construct(Player player,GameManager gameManager)
     {
         this.player = player;
-        this.LevelGen = LevelGen;
+        this.gameManager = gameManager;
 
-        HidePlayer(); 
+    }
 
-        LevelGen.StopGenerate();
-        LevelGen.OnEntrancePlaced += PlacePlayer; 
-    }
-    public void HidePlayer() {
-        player.transform.position = new Vector3(-100, -100, -100);
-    }
     public void StartGame()
     {
-        HidePlayer();
-        LevelGen.GenerateFromZero();
+        gameManager.StartGame();
     }
-    private void PlacePlayer()
-    {
-        LevelGen.PlaceOnSpawn(player.transform);
-    }
+    
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.

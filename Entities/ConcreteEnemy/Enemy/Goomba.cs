@@ -2,14 +2,17 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class Walkie : Entity
+public class Goomba : Entity
 {
+
     [SerializeField] float Exp = 10;
     [SerializeField] float ActivateRadius = 15;
     [SerializeField] Player player;
     [SerializeField] float Speed = 0.1f;
     [SerializeField] float attackPeriod = 1;
     [SerializeField] GameObject bullet;
+    [SerializeField] Vector2 dir;
+
     private Rigidbody2D rb;
     private CountdownTimer timer;
 
@@ -29,6 +32,7 @@ public class Walkie : Entity
         };
         OnDamage += Activate;
         DeActivate();
+        dir = Vector2.right;
     }
     public override void Damage(float damage)
     {
@@ -60,24 +64,29 @@ public class Walkie : Entity
         if (activated)
         {
             timer.Tick(Time.deltaTime);
-            float deltaX = player.transform.position.x - transform.position.x;
-            if (Mathf.Abs(deltaX) < 0.1f) // small threshold
-            {
-                rb.linearVelocity = new Vector2(0, rb.linearVelocityY); // stop movement
-                return;
-            }
-            float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
-            rb.linearVelocity = new Vector2(direction * Speed, rb.linearVelocityY);
+
         }
+        if (IsThereWall())
+        {
+            dir.x = -dir.x;
+        }
+        rb.linearVelocity = new Vector2(dir.x * Speed, rb.linearVelocityY);
+    }
+    bool IsThereWall()
+    {
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + dir / 2, dir.normalized, 0.1f);
+        return hit.collider != null;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawLine((Vector2)transform.position + dir / 2, (Vector2)transform.position + dir);
     }
     void Shoot()
     {
         Vector2 dir = (player.transform.position - transform.position).normalized;
         Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         Instantiate(bullet, transform.position + (Vector3)dir, rotation);
-    }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
     }
     public override void Die()
     {

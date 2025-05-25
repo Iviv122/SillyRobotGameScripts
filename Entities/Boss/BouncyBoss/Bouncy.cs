@@ -1,17 +1,37 @@
-using System.Reflection;
 using UnityEngine;
 using Zenject;
 
 public class Bouncy : Entity, Boss
 {
+    [SerializeField] Player player;
+    [SerializeField] float DetectionRadius;
+    [SerializeField] float ExpGive = 20;
     CountdownTimer _Attack1Timer;
     [SerializeField] float Attack1Period = 3;
     CountdownTimer _Attack2Timer;
     [SerializeField] float Attack2Period = 1;
     [SerializeField] float ContactDamage = 10;
     [SerializeField] GameObject Projectile;
-    [SerializeField] Rigidbody rb;
+    [SerializeField] Rigidbody2D rb;
 
+    [Inject]
+    public void Construct(Player player)
+    {
+        this.player = player;
+    }
+
+    void Activate()
+    {
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        _Attack1Timer.Start();
+        _Attack2Timer.Start();
+    }
+    void DeActivate()
+    {
+        rb.bodyType = RigidbodyType2D.Static;
+        _Attack1Timer.Stop();
+        _Attack2Timer.Stop();
+    }
     public void Start()
     {
         _Attack1Timer = new CountdownTimer(Attack1Period);
@@ -29,10 +49,10 @@ public class Bouncy : Entity, Boss
             RandomShoot();
             _Attack2Timer.Start();
         };
-        
-        _Attack1Timer.Start();
-        _Attack2Timer.Start();
-        rb = gameObject.GetComponent<Rigidbody>();
+
+        rb = gameObject.GetComponent<Rigidbody2D>();
+
+        DeActivate();
     }
     Vector2[] directions = new Vector2[]
         {
@@ -65,16 +85,20 @@ public class Bouncy : Entity, Boss
 
     void Update()
     {
+        if (TransformInRadius(player.transform,DetectionRadius)) {
+            Activate();
+        }
+   
         _Attack1Timer.Tick(Time.deltaTime);
         _Attack2Timer.Tick(Time.deltaTime);
     }
-
+    
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.TryGetComponent<Player>(out Player prey))
         {
             prey.DealDamage(ContactDamage);
-            rb.AddForce(Vector2.up*5);
+            rb.AddForce(Vector2.up * 5);
 
         }
     }
@@ -82,5 +106,9 @@ public class Bouncy : Entity, Boss
     public override void Die()
     {
         Destroy(gameObject);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, DetectionRadius);
     }
 }
