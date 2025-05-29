@@ -16,7 +16,22 @@ public class Chest : MonoBehaviour, IInteract
 
     public void Open()
     {
-        ItemSpawner.GetRandomCommonItem(transform.position.x, transform.position.y+0.2f);
+        int option = UnityEngine.Random.Range(0, 4);
+        switch (option)
+        {
+            case 1:
+                ItemSpawner.GetRandomCommonBodyPart(transform.position.x, transform.position.y + 0.2f);
+                break;
+            case 2:
+                ItemSpawner.GetRandomCommonActiveModule(transform.position.x, transform.position.y + 0.2f);
+                break;
+            case 3:
+                ItemSpawner.GetRandomCandy(transform.position.x, transform.position.y + 0.2f);
+                break;
+            default:
+                ItemSpawner.GetRandomCommonItem(transform.position.x, transform.position.y + 0.2f);
+                break;
+        }
     }
 
     public string GetTitle()

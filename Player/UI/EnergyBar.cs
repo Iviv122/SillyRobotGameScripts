@@ -10,7 +10,8 @@ public class EnergyBar : MonoBehaviour
     [SerializeField] Player player;
 
     [Inject]
-    public void Construct(Player player){
+    public void Construct(Player player)
+    {
         this.player = player;
     }
     void Start()
@@ -20,17 +21,24 @@ public class EnergyBar : MonoBehaviour
     }
     void HandleUpdate()
     {
-        if(slider != null){
+        if (slider != null)
+        {
             slider.maxValue = player.Stats.Energy;
             slider.value = player.Stats.CurrentEnergy;
-        }else{
+        }
+        else
+        {
             Debug.Log("No HealthBar Slider");
         }
-    
-        if(text != null){
-            text.text = player.Stats.CurrentEnergy + "/" + player.Stats.Energy;
-        }else{
+
+        if (text != null)
+        {
+            text.text = player.Stats.CurrentEnergy.ToString("F0") + " / " + player.Stats.Energy.ToString("F0");
+        }
+        else
+        {
             Debug.Log("No HealthBar Text");
         }
     }
+
 }

@@ -1,20 +1,27 @@
 using System.Threading.Tasks;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameBootstrap : MonoBehaviour
 {
-    private async void Start(){
+    [SerializeField] LoadingBar loadingBar;
+
+    [Scene]
+    [SerializeField] string mainMenu; 
+    private async void Start()
+    {
 
         BindingObjects();
         //_loadingScreen.Show();
-        
+
         await InitializeObjects();
+        loadingBar.SetProgress(100);
         // Do stuff
-    
+
         //_loadingScreen.Hide();
-    
-        SceneManager.LoadScene("MainMenu"); 
+
+        SceneManager.LoadScene(mainMenu);
     }
     private void BindingObjects(){
 

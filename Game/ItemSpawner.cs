@@ -116,7 +116,21 @@ public class ItemSpawner : MonoBehaviour
         pickUp.item = part;
         pickUp.transform.position = new Vector2(x, y);
     }
+    public static void GetRandomCandy(float x, float y)
+    {
+         PickUp pickUp = new GameObject("ActiveModule").AddComponent<PickUp>();
 
+        var moduleTypes = Assembly.GetAssembly(typeof(Candy)).GetTypes()
+                                  .Where(t => t.IsSubclassOf(typeof(Candy)))
+                                  .ToArray();
+
+        var type = moduleTypes[UnityEngine.Random.Range(0, moduleTypes.Length)];
+        Candy module = Activator.CreateInstance(type) as Candy;
+        Debug.Log($"{type} was given");
+        module.LoadData();
+        pickUp.item = module;
+        pickUp.transform.position = new Vector2(x, y);
+    }
     public static T RandomEnumValue<T>()
     {
         var values = Enum.GetValues(typeof(T));

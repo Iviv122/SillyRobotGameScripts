@@ -82,7 +82,6 @@ public class Bouncy : Entity, Boss
         Quaternion rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         Instantiate(Projectile, transform.position + (Vector3)dir, rotation);
     }
-
     void Update()
     {
         if (TransformInRadius(player.transform,DetectionRadius)) {
@@ -105,6 +104,7 @@ public class Bouncy : Entity, Boss
 
     public override void Die()
     {
+        GiveExp(player.LevelUpManager, ExpGive);
         Destroy(gameObject);
     }
     private void OnDrawGizmosSelected()

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-abstract public class Candy : ISprite, IInfo
+abstract public class Candy : ISprite, IInfo 
 {
     abstract public Sprite Sprite();
     virtual public void LoadData() { }

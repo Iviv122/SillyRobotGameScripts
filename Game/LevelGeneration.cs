@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 public class LevelGeneration : MonoBehaviour
@@ -19,6 +18,7 @@ public class LevelGeneration : MonoBehaviour
     public GameObject[] LRTRooms;
     public GameObject Exit;
     public GameObject Entrance;
+    public GameObject FinalBoss;
 
     private int direction;
     private int lastDir;
@@ -47,12 +47,6 @@ public class LevelGeneration : MonoBehaviour
         this.container = container;
 
     }
-
-    [Button]
-    void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
     [Button]
     public void Clear()
     {
@@ -73,13 +67,29 @@ public class LevelGeneration : MonoBehaviour
     }
     public void PlaceOnSpawn(Transform trans)
     {
-        trans.position = transform.position = startingPoint[randStartingPoint].position;
+        trans.position = startingPoint[randStartingPoint].position;
     }
     [Button]
     public void GenerateFromZero()
     {
         Clear();
         StartGenerate();
+    }
+    public void GenerateFinalBossFight()
+    {
+        Clear();
+        transform.position = new Vector3(-100, -100);
+        GenerateBossFight();
+    }
+    void GenerateBossFight()
+    {
+        foreach (var item in startingPoint)
+        {
+            item.position = transform.position;
+        }
+
+        container.InstantiatePrefab(FinalBoss, transform.position, Quaternion.identity, null);
+        OnEntrancePlaced?.Invoke();
     }
     [Button]
     public void StartGenerate()
@@ -137,7 +147,16 @@ public class LevelGeneration : MonoBehaviour
         Collider2D[] list = Physics2D.OverlapBoxAll(pos, boxSize, 0);
         foreach (var item in list)
         {
-            
+
+            if (item.transform.root.CompareTag("Player"))
+            {
+                continue;
+            }
+            if (item.transform.root.CompareTag("Platform"))
+            {
+                continue;
+            }
+
             Destroy(item.gameObject);
         }
     }

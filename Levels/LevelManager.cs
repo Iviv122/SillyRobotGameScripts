@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     [Inject]
     void Construct(Player player, DelayCounter delayCounter)
     {
+        _player = null;
         _player = player;
         this.delayCounter = delayCounter;
         col = gameObject.GetComponent<Collider2D>();

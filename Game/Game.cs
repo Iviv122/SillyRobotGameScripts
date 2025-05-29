@@ -14,15 +14,16 @@ public class Game : MonoBehaviour
     public static Game Instance { get; private set; }
 
     [Inject]
-    void Construct(Player player,GameManager gameManager)
+    void Construct(Player player,GameManager gameManager,LevelGeneration levelGeneration)
     {
         this.player = player;
         this.gameManager = gameManager;
-
+        this.LevelGen = levelGeneration;
     }
 
     public void StartGame()
     {
+        gameManager.Construct(player,LevelGen);
         gameManager.StartGame();
     }
     
@@ -37,7 +38,6 @@ public class Game : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
     }
 

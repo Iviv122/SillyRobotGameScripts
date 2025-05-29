@@ -4,6 +4,8 @@ using Zenject;
 
 public class GameplayEntryPoint : MonoBehaviour
 {
+    [SerializeField] LoadingBar loadingBar;
+
     [SerializeField] Game Game;
     [SerializeField] LevelGeneration LevelGeneration;
     //[SerializeField] LevelManager LevelManager;
@@ -13,18 +15,26 @@ public class GameplayEntryPoint : MonoBehaviour
     [SerializeField] Player Player;
     private async void Start()
     {
+        loadingBar.gameObject.SetActive(true);
 
         BindingObjects();
 
         //_loadingScreen.Show();
 
         await InitializeObjects();
+        loadingBar.SetProgress(30);
         await CreateObjects();
+        loadingBar.SetProgress(60);
+
         PrepareGame();
+        loadingBar.SetProgress(90);
+
         //_loadingScreen.Hide();
 
 
         StartGame();
+        loadingBar.SetProgress(90);
+        loadingBar.gameObject.SetActive(false);
     }
     private void BindingObjects()
     {
@@ -32,6 +42,7 @@ public class GameplayEntryPoint : MonoBehaviour
         SceneDIContainer = Instantiate(SceneDIContainer);
         LevelGeneration = SceneDIContainer.Container.InstantiatePrefab(LevelGeneration).GetComponent<LevelGeneration>();
         //LevelLayout = SceneDIContainer.Container.InstantiatePrefab(LevelLayout);
+
         Camera = SceneDIContainer.Container.InstantiatePrefab(Camera).GetComponent<Camera>();
         Player = SceneDIContainer.Container.InstantiatePrefab(Player).GetComponent<Player>();
         Game = SceneDIContainer.Container.InstantiatePrefab(Game).GetComponent<Game>();

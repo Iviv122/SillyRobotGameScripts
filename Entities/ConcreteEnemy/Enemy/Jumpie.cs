@@ -91,6 +91,7 @@ public class Jumpie : Entity
     }
     public override void Die()
     {
+        GiveExp(player.LevelUpManager, Exp);
         Destroy(gameObject);
     }
     void OnDrawGizmosSelected()
